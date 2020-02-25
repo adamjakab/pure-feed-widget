@@ -74,7 +74,8 @@ class Pure {
 	 *
 	 * @param  string           $endpoint  API endpoint, ie resource type.
 	 * @param  SimpleXMLElement $query     Query parameters as an SimpleXMLElement.
-	 * @return string           $xml       Representation of the response.
+     *
+	 * @return SimpleXMLElement            Representation of the response.
 	 */
 	private function query( string $endpoint, SimpleXMLElement $query ) {
 		$url  = $this->url . '/' . $endpoint . '?' . http_build_query( [ 'apiKey' => $this->apikey ] );
