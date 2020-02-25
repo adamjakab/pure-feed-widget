@@ -8,6 +8,12 @@
 namespace PureFeedWidget;
 
 class Publication {
+    /** @var SimpleXMLElement  */
+    protected $rendered;
+
+    /** @var string  */
+    protected $rendering;
+
 	/**
 	 * Constructor.
 	 *
