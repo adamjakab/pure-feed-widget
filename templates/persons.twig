@@ -1,3 +1,15 @@
 <p>
-    This is my good {{ name }}.
+    This is a {{ name }} template.<br />
+    Researchers: {{ elements|length }}
 </p>
+
+
+{% for element in elements %}
+    {# @var element \PureFeedWidget\Entity\Person #}
+    <div>
+        <span>{{ element.uuid }}</span>
+        <span>{{ element.pure_id }}</span>
+        <span>{{ element.first_name }}</span>
+        <span>{{ element.last_name }}</span>
+    </div>
+{% endfor %}

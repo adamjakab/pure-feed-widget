@@ -10,6 +10,8 @@ namespace PureFeedWidget;
 
 
 use Exception;
+use PureFeedWidget\PureOutput\PersonsOutput;
+use PureFeedWidget\PureOutput\ResearchOutput;
 use SimpleXMLElement;
 use function wp_remote_post;
 use function wp_remote_retrieve_body;
@@ -19,52 +21,72 @@ use function wp_remote_retrieve_body;
  */
 class Pure
 {
-    /** @var string */
-    protected $url;
-
-    /** @var */
-    protected $api_key;
+    /** @var array */
+    protected $config;
 
     /**
      * Constructs a data source.
      *
-     * @param string $url URL to grab data from.
-     * @param string $api_key Api key.
+     * @param array $config
      */
-    public function __construct(string $url, string $api_key)
+    public function __construct(array $config)
     {
-        $this->url = $url;
-        $this->api_key = $api_key;
+        $this->config = $config;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOutput()
+    {
+        if($this->config['endpoint'] == "Research-Outputs")
+        {
+            $out = $this->getResearchOutput();
+        } else if ($this->config['endpoint'] == "Persons") {
+            $out = $this->getPersonsOutput();
+        } else {
+            $out = "No suitable endpoint was selected.";
+        }
+
+        return $out;
     }
 
     /**
      * Get research output from the Pure.
      *
-     * @param string $org Organization to filter.
-     * @param int $size Number of items to get.
-     * @param string $rendering Rendering type. "None" is a special type - no rendering parameter should be set
-     *
-     * @return array Of publications
-     * @throws Exception
+     * @return string
      */
-    public function getPersons(string $org = null, int $size = 5, string $rendering = 'None')
+    protected function getPersonsOutput()
     {
-        $answer = [];
-
-        return $answer;
+        $PO = new PersonsOutput();
+        $PO->setUrl($this->config["url"]);
+        $PO->setApiKey($this->config["api_key"]);
+        $PO->setOrganizationUuid($this->config["organization_uuid"]);
+        $PO->setSize($this->config["size"]);
+        $PO->setRendering($this->config["rendering"]);
+        $PO->load();
+        return $PO->getRenderedOutput("persons.twig");
     }
+
+    /**
+     * @return string
+     */
+    protected function getResearchOutput()
+    {
+        $RO = new ResearchOutput();
+
+        return $RO->getRenderedOutput();
+    }
+
+
 
     /**
      * Get research output from the Pure.
      *
-     * @param string $org Organization to filter.
-     * @param int $size Number of items to get.
-     * @param string $rendering Rendering type. "None" is a special type - no rendering parameter should be set
-     *
-     * @return array Of publications
+     * @return string
      * @throws Exception
      */
-    public function getResearchOutputs(string $org = null, int $size = 5, string $rendering = 'None')
+    public function getResearchOutput_old()
     {
         $research_outputs = [];
 

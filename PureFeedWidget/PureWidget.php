@@ -8,8 +8,6 @@
 namespace PureFeedWidget;
 
 use Exception;
-use Twig\Loader\FilesystemLoader as TwigFSLoader;
-use Twig\Environment as TwigEnvironment;
 
 /**
  * A WordPress widget for listing data from an Elsevier Pure systems.
@@ -63,43 +61,17 @@ class PureWidget extends \WP_Widget
     {
         echo $args['before_widget'];
         echo $args['before_title'];
-        echo apply_filters('widget_title', !empty($instance['title']) ? $instance['title'] : 'Latest publications');
+        echo apply_filters('widget_title', $instance['title']);
         echo $args['after_title'];
 
-        $twig = $this->getTwig();
-        $pure = new Pure($instance['url'], $instance['api_key']);
-
-        if($instance['endpoint'] == "Research-Outputs")
-        {
-            //$publications = $pure->getResearchOutputs($instance['org'], $instance['size'], $instance['rendering']);
-            $template = $twig->load('publications.twig');
-            $out = $template->render(["name" => "PUBL"]);
-        } else if ($instance['endpoint'] == "Persons") {
-            //$persons = $pure->getPersons($instance['org'], $instance['size'], $instance['rendering']);
-            $template = $twig->load('persons.twig');
-            $out = $template->render(["name" => "PERS"]);
-        } else {
-            $out = "No suitable endpoint was selected.";
-        }
-
+        $pure = new Pure($instance);
+        $out = $pure->getOutput();
         print($out);
 
         echo $args['after_widget'];
     }
 
-    /**
-     * @return TwigEnvironment
-     */
-    protected function getTwig()
-    {
-        $loader = new TwigFSLoader(dirname(__DIR__) . "/templates");
 
-        $twigEnvOptions = [
-            'cache' => dirname(__DIR__) . "/tmp"
-        ];
-
-        return new TwigEnvironment($loader, $twigEnvOptions);
-    }
 
 
     /**
