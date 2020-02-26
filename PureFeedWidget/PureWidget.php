@@ -9,7 +9,7 @@ namespace PureFeedWidget;
 
 use Exception;
 
-require_once 'class-pure.php';
+require_once 'Pure.php';
 
 /**
  * A WordPress widget for listing data from an Elsevier Pure systems.
@@ -51,6 +51,9 @@ class Pure_Widget extends \WP_Widget {
 
             echo "<ul class='references'>";
             $publications = $this->datasource->get_research_outputs($org = $instance['org'], $size = $instance['size'], $rendering = $instance['rendering']);
+
+            print("PUBS: " . count($publications));
+
             foreach ($publications as $pub) {
                 print($pub->as_html());
                 print(PHP_EOL);
@@ -144,14 +147,19 @@ class Pure_Widget extends \WP_Widget {
             <label for="<?php echo esc_attr($this->get_field_id('rendering')); ?>">
                 <?php esc_attr_e('Style:'); ?>
             </label>
+
+            <?php
+                $formats_url = $url . '/research-outputs-meta/renderings?apiKey=' . $apikey;
+                $renderings = simplexml_load_file($formats_url);
+            ?>
+
+
             <select id="<?php echo esc_attr($this->get_field_id('rendering')); ?>"
                     class="rendering"
                     name="<?php echo esc_attr($this->get_field_name('rendering')); ?>">
                 <!--This would better be AJAX I guess. -->
                 <?php
-                $formats_url = $url . '/research-outputs-meta/renderings?apiKey=' . $apikey;
-                $renderings = simplexml_load_file($formats_url);
-
+                echo '<option value="">None</option>';
                 if ($renderings) {
                     foreach ($renderings->xpath('//renderings/rendering') as $rendering_option) {
                         echo '<option value=' . $rendering_option . (($rendering_option == esc_attr($rendering)) ? ' selected' : null) . '>' . $rendering_option . '</option>';

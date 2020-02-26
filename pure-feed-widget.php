@@ -14,13 +14,11 @@
  * @package PureFeedWidget
  */
 
-namespace PureFeedWidget;
-
-require_once 'class-pure-widget.php';
+require_once 'PureFeedWidget/PureWidget.php';
 
 add_action(
 	'widgets_init',
 	function() {
-		register_widget( 'PureFeedWidget\Pure_Widget' );
+		register_widget( 'PureFeedWidget\PureWidget' );
 	}
 );

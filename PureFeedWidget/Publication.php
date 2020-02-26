@@ -14,6 +14,7 @@ class Publication {
     /** @var string  */
     protected $rendering;
 
+
 	/**
 	 * Constructor.
 	 *
