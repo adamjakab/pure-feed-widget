@@ -3,7 +3,7 @@
 
 # Temporary files
 *~
-tmp/
+devel/
 
 # Composer
 /vendor/

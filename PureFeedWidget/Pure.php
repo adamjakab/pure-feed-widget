@@ -7,7 +7,7 @@
 
 namespace PureFeedWidget;
 
-# require_once 'Publication.php';
+
 
 use Exception;
 use SimpleXMLElement;
@@ -42,12 +42,29 @@ class Pure
      *
      * @param string $org Organization to filter.
      * @param int $size Number of items to get.
-     * @param string $rendering Rendering type.
+     * @param string $rendering Rendering type. "None" is a special type - no rendering parameter should be set
      *
      * @return array Of publications
      * @throws Exception
      */
-    public function get_research_outputs(string $org = null, int $size = 5, string $rendering = 'vancouver')
+    public function getPersons(string $org = null, int $size = 5, string $rendering = 'None')
+    {
+        $answer = [];
+
+        return $answer;
+    }
+
+    /**
+     * Get research output from the Pure.
+     *
+     * @param string $org Organization to filter.
+     * @param int $size Number of items to get.
+     * @param string $rendering Rendering type. "None" is a special type - no rendering parameter should be set
+     *
+     * @return array Of publications
+     * @throws Exception
+     */
+    public function getResearchOutputs(string $org = null, int $size = 5, string $rendering = 'None')
     {
         $research_outputs = [];
 
@@ -64,129 +81,6 @@ class Pure
             'publicationStatuses' => '/dk/atira/pure/researchoutput/status/published',
             /*'forOrganisationalUnits' => ['uuids' => ['uuid' => $org]],*/
         ];
-
-        /*
-         * RESEARCH OUTPUTS:
-         *
-         * Allowed keys:
-         * \"size\",
-         * \"forJournals\",
-         * \"keywordUris\",
-         * \"offset\",
-         * \"fallbackLocales\",
-         * \"uuids\",
-         * \"searchString\",
-         * \"publishedBeforeDate\",
-         * \"publishedAfterDate\",
-         * \"orderings\",
-         * \"forPublishers\",
-         * \"idClassification\",
-         * \"internationalPeerReviewed\",
-         * \"modifiedBefore\",
-         * \"publicationStatuses\",
-         * \"navigationLink\",
-         * \"authorRoles\",
-         * \"forPersons\",
-         * \"freeKeywords\",
-         * \"ids\",
-         * \"peerReviewed\",
-         * \"linkingStrategy\", [documentLinkingStrategy, portalLinkingStrategy, noLinkingStrategy, externalSourceIdLinkingStrategy]
-         * \"modifiedAfter\",
-         * \"locales\",
-         * \"forOrganisationalUnits\",
-         * \"renderings\",
-         * \"workflowSteps\",
-         * \"returnUsedContent\",
-         * \"fields\",
-         * \"typeUris\",
-         * \"publicationCategories\"
-         *
-         *<researchOutputsQuery>
-	<size>1</size>
-	<linkingStrategy>portalLinkingStrategy</linkingStrategy>
-	<locales>
-		<locale>en_GB</locale>
-	</locales>
-	<orderings>
-		<ordering>-publicationYear</ordering>
-	</orderings>
-</researchOutputsQuery>
-
-        "publicationStatuses": [
-        {
-          "current": true,
-          "publicationDate": {
-            "year": 2016
-          },
-          "publicationStatus": [
-            {
-              "value": "Published",
-              "pureId": 31654104,
-              "uri": "/dk/atira/pure/researchoutput/status/published"
-            }
-          ]
-        }
-      ],
-
-         * */
-
-        /*
-         * PERSONS:
-         *
-         * Allowed keys:
-         * \"size\",
-         * \"renderings\",
-         * \"modifiedBefore\",
-         * \"returnUsedContent\",
-         * \"employmentPeriod\",
-         * \"navigationLink\",
-         * \"forOrganisations\",
-         * \"offset\",
-         * \"freeKeywords\",
-         * \"fallbackLocales\",
-         * \"ids\",
-         * \"academicStaff\",
-         * \"linkingStrategy\",
-         * \"employmentStatus\",
-         * \"orderings\",
-         * \"idClassification\",
-         * \"personOrganisationAssociationTypes\",
-         * \"employmentTypeUris\",
-         * \"keywordUris\",
-         * \"modifiedAfter\",
-         * \"searchString\",
-         * \"fields\",
-         * \"uuids\",
-         * \"locales\"
-         *
-         * EXAMPLE:
-         * {
-    "size": 25,
-    "offset": 0,
-    "locales": [
-        "en_GB"
-    ],
-    "orderings": [
-        "lastName"
-    ],
-    "fields": [
-        "pureId",
-        "uuid",
-        "name.firstName",
-        "name.lastName",
-        "profilePhotos.url",
-        "profileInformations.type",
-        "profileInformations.value",
-        "staffOrganisationAssociations.organisationalUnit.name.value"
-    ],
-    "forOrganisations": {
-        "uuids": [
-            "c3c5ad6f-a39f-411e-b880-4c9045cc60a2"
-        ]
-    }
-}
-         *
-         * */
 
         // This is the wrong place for this; would be nice if the XML
         // conversion was done from the query function, but these

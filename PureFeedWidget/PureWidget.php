@@ -8,16 +8,34 @@
 namespace PureFeedWidget;
 
 use Exception;
-
-# require_once 'Pure.php';
+use Twig\Loader\FilesystemLoader as TwigFSLoader;
+use Twig\Environment as TwigEnvironment;
 
 /**
  * A WordPress widget for listing data from an Elsevier Pure systems.
  */
 class PureWidget extends \WP_Widget
 {
-    /** @var Pure */
-    protected $pure = null;
+    /** @var array  */
+    protected $defaults = [
+        "title" => "Publications",
+        "endpoint" => "Research-Outputs",
+        "size" => "10",
+        "rendering" => "None"
+    ];
+
+    /** @var array  */
+    protected $endpoint_options = ["Research-Outputs", "Persons"];
+
+    /**
+     * Once these came from:  $url . '/research-outputs-meta/renderings?apiKey=' . $apikey;
+     * For now I took it out
+     *
+     * @var array
+     */
+    protected $rendering_options = ["portal-short", "standard", "detailsPortal", "mla", "author", "cbe", "authorlist",
+        "long", "BIBTEX", "vancouver", "system", "apa", "short", "harvard", "RIS", "researchOutputHeader"];
+
 
     /**
      * Constructor.
@@ -48,21 +66,39 @@ class PureWidget extends \WP_Widget
         echo apply_filters('widget_title', !empty($instance['title']) ? $instance['title'] : 'Latest publications');
         echo $args['after_title'];
 
-        $this->pure = new Pure($instance['url'], $instance['api_key']);
-        $publications = $this->pure->get_research_outputs($instance['org'], $instance['size'], $instance['rendering']);
-        print("COUNT: " . count($publications));
+        $twig = $this->getTwig();
+        $pure = new Pure($instance['url'], $instance['api_key']);
 
-        /*
-        echo "<ul class='references'>";
-        foreach ($publications as $pub) {
-            print($pub->as_html());
-            print(PHP_EOL);
+        if($instance['endpoint'] == "Research-Outputs")
+        {
+            //$publications = $pure->getResearchOutputs($instance['org'], $instance['size'], $instance['rendering']);
+            $template = $twig->load('publications.twig');
+            $out = $template->render(["name" => "PUBL"]);
+        } else if ($instance['endpoint'] == "Persons") {
+            //$persons = $pure->getPersons($instance['org'], $instance['size'], $instance['rendering']);
+            $template = $twig->load('persons.twig');
+            $out = $template->render(["name" => "PERS"]);
+        } else {
+            $out = "No suitable endpoint was selected.";
         }
-        echo '</ul>';
-        */
 
+        print($out);
 
         echo $args['after_widget'];
+    }
+
+    /**
+     * @return TwigEnvironment
+     */
+    protected function getTwig()
+    {
+        $loader = new TwigFSLoader(dirname(__DIR__) . "/templates");
+
+        $twigEnvOptions = [
+            'cache' => dirname(__DIR__) . "/tmp"
+        ];
+
+        return new TwigEnvironment($loader, $twigEnvOptions);
     }
 
 
@@ -74,22 +110,21 @@ class PureWidget extends \WP_Widget
     {
         $form = "";
 
-        $title = !empty($instance['title']) ? $instance['title'] : "Pure Feed";
-        $url = !empty($instance['url']) ? $instance['url'] : null;
-        $api_key = !empty($instance['api_key']) ? $instance['api_key'] : null;
-        $organization_uuid = !empty($instance['organization_uuid']) ? $instance['organization_uuid'] : null;
-        $size = !empty($instance['size']) ? $instance['size'] : 5;
-        $rendering = !empty($instance['rendering']) ? $instance['rendering'] : null;
-
-        $rendering_options = ["portal-short", "standard", "detailsPortal", "mla", "author", "cbe", "authorlist",
-            "long", "BIBTEX", "vancouver", "system", "apa", "short", "harvard", "RIS", "researchOutputHeader"];
+        $title = $this->getInstanceValue("title", $instance, []);
+        $url = $this->getInstanceValue("url", $instance, []);
+        $api_key = $this->getInstanceValue("api_key", $instance, []);
+        $organization_uuid = $this->getInstanceValue("organization_uuid", $instance, []);
+        $endpoint = $this->getInstanceValue("endpoint", $instance, []);
+        $size = $this->getInstanceValue("size", $instance, []);
+        $rendering = $this->getInstanceValue("rendering", $instance, []);
 
         $form .= $this->getFormInputField("title", "Title", $title);
         $form .= $this->getFormInputField("url", "API URL", $url, true);
         $form .= $this->getFormInputField("api_key", "API KEY", $api_key, true);
         $form .= $this->getFormInputField("organization_uuid", "Organization UUID", $organization_uuid);
+        $form .= $this->getFormSelectField("endpoint", "Select an endpoint", $endpoint, $this->endpoint_options);
         $form .= $this->getFormInputField("size", "Number of items", $size);
-        $form .= $this->getFormSelectField("rendering", "Remote rendering format", $rendering, $rendering_options);
+        $form .= $this->getFormSelectField("rendering", "Remote rendering format", $rendering, $this->rendering_options, true);
 
         print $form;
     }
@@ -104,26 +139,30 @@ class PureWidget extends \WP_Widget
     public function update($new, $old)
     {
         $instance = [];
-        $instance['title'] = $this->getInstanceValue("title", 'Latest publications', $new, $old);
-        $instance['url'] = $this->getInstanceValue("url", '', $new, $old);
-        $instance['api_key'] = $this->getInstanceValue("api_key", '', $new, $old);
-        $instance['organization_uuid'] = $this->getInstanceValue("organization_uuid", '', $new, $old);
-        $instance['size'] = $this->getInstanceValue("size", "10", $new, $old);
-        $instance['rendering'] = $this->getInstanceValue("rendering", "apa", $new, $old);
+        $instance['title'] = $this->getInstanceValue("title", $new, $old);
+        $instance['url'] = $this->getInstanceValue("url", $new, $old);
+        $instance['api_key'] = $this->getInstanceValue("api_key", $new, $old);
+        $instance['organization_uuid'] = $this->getInstanceValue("organization_uuid", $new, $old);
+        $instance['endpoint'] = $this->getInstanceValue("endpoint", $new, $old);
+        $instance['size'] = $this->getInstanceValue("size", $new, $old);
+        $instance['rendering'] = $this->getInstanceValue("rendering", $new, $old);
 
         return $instance;
     }
 
     /**
      * @param string $attrib
-     * @param string $default
      * @param array $new_instance
      * @param array $old_instance
      * @return string
      */
-    protected function getInstanceValue($attrib, $default, $new_instance, $old_instance)
+    protected function getInstanceValue($attrib, $new_instance, $old_instance)
     {
-        $value = $default;
+        $value = "";
+
+        if (array_key_exists($attrib, $this->defaults) && !empty($this->defaults[$attrib])) {
+            $value = $this->defaults[$attrib];
+        }
 
         if (array_key_exists($attrib, $old_instance) && !empty($old_instance[$attrib])) {
             $value = $old_instance[$attrib];
@@ -139,6 +178,8 @@ class PureWidget extends \WP_Widget
     }
 
     /**
+     * @todo: use twig for this
+     *
      * @param string $field_name
      * @param string $field_title
      * @param string $field_value
@@ -174,9 +215,12 @@ class PureWidget extends \WP_Widget
      * @param string $field_title
      * @param string $field_value
      * @param array $options
+     * @param bool $allow_none
      * @return string
+     * @todo: use twig for this
+     *
      */
-    protected function getFormSelectField($field_name, $field_title, $field_value, $options)
+    protected function getFormSelectField($field_name, $field_title, $field_value, $options, $allow_none=false)
     {
         $field = '';
 
@@ -191,8 +235,11 @@ class PureWidget extends \WP_Widget
             . '>';
 
         sort($options);
+        if ($allow_none) {
+            array_unshift($options, "None");
+        }
         foreach($options as $option) {
-            $field .= '<option value=' . $option . (($option == esc_attr($field_value)) ? ' selected' : null) . '>' . $option . '</option>';
+            $field .= '<option value="' . $option . '"' . ($option == esc_attr($field_value) ? ' selected' : null) . '>' . $option . '</option>';
         }
 
         $field .=
@@ -202,12 +249,4 @@ class PureWidget extends \WP_Widget
 
         return $field;
     }
-
-    /* One day...
-    protected function getAvailableFormats()
-    {
-        //$formats_url = $url . '/research-outputs-meta/renderings?apiKey=' . $apikey;
-        //$renderings = simplexml_load_file($formats_url);
-    }
-    */
 }
