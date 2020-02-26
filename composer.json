@@ -1,0 +1,19 @@
+{
+    "name": "jackisback/pure-feed-widget",
+    "description": "A widget for listing academic publications from Elsevier Pure in WordPress.",
+    "type": "library",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Adam Jakab",
+            "email": "jakabadambalazs@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "twig/twig": "2.x-dev"
+    },
+    "autoload": {
+        "psr-4": {"PureFeedWidget\\": "PureFeedWidget/"}
+    }
+}

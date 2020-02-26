@@ -14,7 +14,8 @@
  * @package PureFeedWidget
  */
 
-require_once 'PureFeedWidget/PureWidget.php';
+
+require __DIR__ . '/vendor/autoload.php';
 
 add_action(
     'widgets_init',

@@ -7,7 +7,7 @@
 
 namespace PureFeedWidget;
 
-require_once 'Publication.php';
+# require_once 'Publication.php';
 
 use Exception;
 use SimpleXMLElement;
