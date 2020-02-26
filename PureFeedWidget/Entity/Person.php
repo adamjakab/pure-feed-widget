@@ -42,7 +42,6 @@ class Person
      */
     public function getPureId(): string
     {
-        print("PID: ");
         return $this->pure_id;
     }
 
@@ -102,7 +101,12 @@ class Person
         $this->last_name = $last_name;
     }
 
-
-
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return $this->last_name . " " . $this->first_name;
+    }
 
 }

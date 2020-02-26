@@ -111,7 +111,7 @@ class Output
             'cache' => $this->projectRootFolder . "/tmp",
             'debug' => true,
             'auto_reload' => true,
-            'strict_variables' => true
+            'strict_variables' => false
         ];
 
         return new TwigEnvironment($loader, $twigEnvOptions);
