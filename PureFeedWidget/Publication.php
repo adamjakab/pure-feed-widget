@@ -7,8 +7,16 @@
 
 namespace PureFeedWidget;
 
-class Publication {
-    /** @var SimpleXMLElement  */
+use Exception;
+use SimpleXMLElement;
+
+/**
+ * Class Publication
+ * @package PureFeedWidget
+ */
+class Publication
+{
+    /** @var SimpleXMLElement */
     protected $rendered;
 
     /** @var string */

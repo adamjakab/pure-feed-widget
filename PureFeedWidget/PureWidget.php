@@ -14,19 +14,22 @@ require_once 'Pure.php';
 /**
  * A WordPress widget for listing data from an Elsevier Pure systems.
  */
-class Pure_Widget extends \WP_Widget {
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$widget_ops = array(
-			'classname'   => 'pure_widget',
-			'description' => 'Pure feed widget',
-		);
-		parent::__construct( 'pure_widget', 'Pure Feed widget', $widget_ops );
+class PureWidget extends \WP_Widget
+{
+    /** @var null */
+    protected $datasource = null;
 
-		$this->datasource = null;
-	}
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $widget_ops = array(
+            'classname' => 'pure_widget',
+            'description' => 'Pure feed widget',
+        );
+        parent::__construct('pure_widget', 'Pure Feed widget', $widget_ops);
+    }
 
     /**
      * Widget output.
@@ -173,20 +176,23 @@ class Pure_Widget extends \WP_Widget {
         <?php
     }
 
-	/**
-	 * Save widget options.
-	 *
-	 * @param array $new_instance New widget configuration options.
-	 * @param array $old_instance Old widget configuration options.
-	 */
-	public function update( $new_instance, $old_instance ) {
-		$instance              = array();
-		$instance['title']     = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : 'Latest publications';
-		$instance['url']       = ( ! empty( $new_instance['url'] ) ) ? strip_tags( $new_instance['url'] ) : null;
-		$instance['apikey']    = ( ! empty( $new_instance['apikey'] ) ) ? strip_tags( $new_instance['apikey'] ) : null;
-		$instance['org']       = ( ! empty( $new_instance['org'] ) ) ? strip_tags( $new_instance['org'] ) : null;
-		$instance['size']      = ( ! empty( $new_instance['size'] ) ) ? strip_tags( $new_instance['size'] ) : 5;
-		$instance['rendering'] = ( ! empty( $new_instance['rendering'] ) ) ? strip_tags( $new_instance['rendering'] ) : 'vancouver';
-		return $instance;
-	}
+    /**
+     * Save widget options.
+     *
+     * @param array $new_instance New widget configuration options.
+     * @param array $old_instance Old widget configuration options.
+     * @return array
+     */
+    public function update($new_instance, $old_instance)
+    {
+        $instance = array();
+        $instance['title'] = (!empty($new_instance['title'])) ? strip_tags($new_instance['title']) : 'Latest publications';
+        $instance['url'] = (!empty($new_instance['url'])) ? strip_tags($new_instance['url']) : null;
+        $instance['apikey'] = (!empty($new_instance['apikey'])) ? strip_tags($new_instance['apikey']) : null;
+        $instance['org'] = (!empty($new_instance['org'])) ? strip_tags($new_instance['org']) : null;
+        $instance['size'] = (!empty($new_instance['size'])) ? strip_tags($new_instance['size']) : 5;
+        $instance['rendering'] = (!empty($new_instance['rendering'])) ? strip_tags($new_instance['rendering']) : 'vancouver';
+
+        return $instance;
+    }
 }
