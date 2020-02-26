@@ -66,15 +66,49 @@ class PureWidget extends \WP_Widget
         echo $args['after_widget'];
     }
 
-    /**
-     * Output widget options form for the WordPress admin interface.
-     *
-     * Oh dear this is a mess for now, and would benefit from templating.
-     *
-     * @param array $instance Widget configuration options.
-     * @return void
-     */
+
     public function form($instance)
+    {
+        $form = "";
+
+        $title = !empty($instance['title']) ? $instance['title'] : "Pure Feed";
+        $url = !empty($instance['url']) ? $instance['url'] : null;
+        $org = !empty($instance['org']) ? $instance['org'] : null;
+        $apikey = !empty($instance['apikey']) ? $instance['apikey'] : null;
+        $size = !empty($instance['size']) ? $instance['size'] : 5;
+        $rendering = !empty($instance['rendering']) ? $instance['rendering'] : null;
+
+
+        $form .= $this->getFormInputField("title", "Title", $title);
+        $form .= $this->getFormInputField("url", "API URL", $url, true);
+        $form .= $this->getFormInputField("apikey", "API KEY", $apikey, true);
+
+        print $form;
+    }
+
+    protected function getFormInputField($field_name, $field_title, $field_value, $required=false)
+    {
+        $field = '';
+        $field .=
+            '<p>'
+            . '<label for="'.esc_attr($this->get_field_id($field_name)).'">'
+            . esc_attr($field_title)
+            . '<input'
+            . ' id="'.esc_attr($this->get_field_id($field_name)).'"'
+            . ' class="' . join(" ", [$field_name, "widefat"]) . '"'
+             .' name="'.esc_attr($this->get_field_name($field_name)).'"'
+            . ' value="'. $field_value .'"'
+            . ($required ? 'required' : '')
+            . ' type="text"'
+            . '>'
+            . '</label>'
+            . '</p>';
+
+        return $field;
+    }
+
+    /**
+    public function _form($instance)
     {
         $title = !empty($instance['title']) ? $instance['title'] : esc_html__('', 'text_domain');
         $url = !empty($instance['url']) ? $instance['url'] : null;
@@ -174,7 +208,8 @@ class PureWidget extends \WP_Widget
             </select>
         </p>
         <?php
-    }
+    }*/
+
 
     /**
      * Save widget options.
