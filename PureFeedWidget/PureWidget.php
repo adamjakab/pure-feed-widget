@@ -149,8 +149,8 @@ class Pure_Widget extends \WP_Widget {
             </label>
 
             <?php
-                $formats_url = $url . '/research-outputs-meta/renderings?apiKey=' . $apikey;
-                $renderings = simplexml_load_file($formats_url);
+            $formats_url = $url . '/research-outputs-meta/renderings?apiKey=' . $apikey;
+            $renderings = simplexml_load_file($formats_url);
             ?>
 
 

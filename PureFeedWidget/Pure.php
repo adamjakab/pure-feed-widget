@@ -17,23 +17,25 @@ use function wp_remote_retrieve_body;
 /**
  * A Pure API representation.
  */
-class Pure {
-    /** @var string  */
+class Pure
+{
+    /** @var string */
     protected $url;
 
-    /** @var  */
+    /** @var */
     protected $api_key;
 
-	/**
-	 * Constructs a data source.
-	 *
-	 * @param string $url       URL to grab data from.
-	 * @param string $api_key   Api key.
-	 */
-	public function __construct( string $url, string $api_key ) {
-		$this->url    = $url;
-		$this->api_key = $api_key;
-	}
+    /**
+     * Constructs a data source.
+     *
+     * @param string $url URL to grab data from.
+     * @param string $api_key Api key.
+     */
+    public function __construct(string $url, string $api_key)
+    {
+        $this->url = $url;
+        $this->api_key = $api_key;
+    }
 
     /**
      * Get research output from the Pure.
@@ -45,7 +47,7 @@ class Pure {
      * @return array Of publications
      * @throws Exception
      */
-	public function get_research_outputs( string $org = null, int $size = 5, string $rendering = 'vancouver' )
+    public function get_research_outputs(string $org = null, int $size = 5, string $rendering = 'vancouver')
     {
         $research_outputs = [];
 
@@ -206,9 +208,8 @@ class Pure {
         }
 
 
-
-		return $research_outputs;
-	}
+        return $research_outputs;
+    }
 
     /**
      * Query the API
@@ -219,58 +220,60 @@ class Pure {
      * @return SimpleXMLElement            Representation of the response.
      * @throws Exception
      */
-	private function query( string $endpoint, SimpleXMLElement $query ) {
-	    $xml = false;
+    private function query(string $endpoint, SimpleXMLElement $query)
+    {
+        $xml = false;
 
-		$url  = $this->url . '/' . $endpoint . '?' . http_build_query( [ 'apiKey' => $this->api_key ] );
+        $url = $this->url . '/' . $endpoint . '?' . http_build_query(['apiKey' => $this->api_key]);
 
-		$args = [
-			'body'    => $query->asXML(),
+        $args = [
+            'body' => $query->asXML(),
             /*'body'    => '<researchOutputsQuery></researchOutputsQuery>',*/
-			'headers' => [ 'Content-Type' => 'application/xml' ],
-		];
+            'headers' => ['Content-Type' => 'application/xml'],
+        ];
 
 
-		$response = wp_remote_post( $url, $args );
-		if(is_array($response)){
-            $response_body = wp_remote_retrieve_body( $response );
-            if($response_body) {
+        $response = wp_remote_post($url, $args);
+        if (is_array($response)) {
+            $response_body = wp_remote_retrieve_body($response);
+            if ($response_body) {
                 $xml = simplexml_load_string($response_body);
             }
         }
 
-		if (!$xml) {
-		    throw new Exception("Unable to parse response!");
+        if (!$xml) {
+            throw new Exception("Unable to parse response!");
         }
 
         print sprintf('XML: <pre>%s</pre>', htmlentities($xml->saveXML()));
 
-		return $xml;
-	}
+        return $xml;
+    }
 
-	/**
-	 * Populates and XML element with an array, in place.
-	 *
-	 * @param SimpleXMLElement $object XML object to populate.
-	 * @param array            $data   Data to push to the XML object.
-	 *
-	 * @author Francis Lewis
-	 *
-	 * From here https://stackoverflow.com/a/19987539/1760439
-	 */
-	private function array_to_xml( SimpleXMLElement $object, array $data ) {
-		foreach ( $data as $key => $value ) {
-			if ( is_array( $value ) ) {
-				$new_object = $object->addChild( $key );
-				$this->array_to_xml( $new_object, $value );
-			} else {
-				// if the key is an integer, it needs text with it to actually work.
-				if ( $key === (int) $key ) {
-					$key = "$key";
-				}
+    /**
+     * Populates and XML element with an array, in place.
+     *
+     * @param SimpleXMLElement $object XML object to populate.
+     * @param array $data Data to push to the XML object.
+     *
+     * @author Francis Lewis
+     *
+     * From here https://stackoverflow.com/a/19987539/1760439
+     */
+    private function array_to_xml(SimpleXMLElement $object, array $data)
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $new_object = $object->addChild($key);
+                $this->array_to_xml($new_object, $value);
+            } else {
+                // if the key is an integer, it needs text with it to actually work.
+                if ($key === (int)$key) {
+                    $key = "$key";
+                }
 
-				$object->addChild( $key, $value );
-			}
-		}
-	}
+                $object->addChild($key, $value);
+            }
+        }
+    }
 }

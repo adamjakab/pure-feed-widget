@@ -17,8 +17,8 @@
 require_once 'PureFeedWidget/PureWidget.php';
 
 add_action(
-	'widgets_init',
-	function() {
-		register_widget( 'PureFeedWidget\PureWidget' );
-	}
+    'widgets_init',
+    function () {
+        register_widget('PureFeedWidget\PureWidget');
+    }
 );
