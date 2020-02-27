@@ -46,7 +46,7 @@ class Pure
     }
 
     /**
-     * Get research output from the Pure.
+     * Get Persons research output from the Pure.
      *
      * @return string
      */
@@ -59,7 +59,15 @@ class Pure
         $PO->setSize($this->config["size"]);
         $PO->setRendering($this->config["rendering"]);
         $PO->load();
-        return $PO->getRenderedOutput("persons.twig", ["description" => "Researchers found: "]);
+
+        $renderer = new Renderer(['auto_reload' => true]);
+
+        $context = [
+            "elements" => $PO->getElements(),
+            "description" => "Researchers found: "
+        ];
+
+        return $renderer->render("persons.twig", $context);
     }
 
     /**
@@ -69,6 +77,13 @@ class Pure
     {
         $RO = new ResearchOutput();
 
-        return $RO->getRenderedOutput("publications.twig", ["description" => "Publications found: "]);
+        $renderer = new Renderer(['auto_reload' => true]);
+
+        $context = [
+            "elements" => $RO->getElements(),
+            "description" => "Publications found: "
+        ];
+
+        return $renderer->render("persons.twig", $context);
     }
 }

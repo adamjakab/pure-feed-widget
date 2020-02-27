@@ -3,11 +3,8 @@
 
 namespace PureFeedWidget\PureOutput;
 
-
 use Exception;
 use stdClass;
-use Twig\Environment as TwigEnvironment;
-use Twig\Loader\FilesystemLoader as TwigFSLoader;
 
 
 class Output
@@ -24,9 +21,6 @@ class Output
     /** @var string */
     private $api_endpoint = "";
 
-    /** @var string */
-    private $projectRootFolder = "";
-
     /** @var int */
     private $size = 5;
 
@@ -42,7 +36,7 @@ class Output
 
     public function __construct()
     {
-        $this->projectRootFolder = dirname(dirname(__DIR__));
+        /**/
     }
 
     /**
@@ -87,31 +81,6 @@ class Output
         # print("<hr />" . htmlentities($response_body) . "<hr />");
     }
 
-
-    public function getRenderedOutput(string $template, array $context = [])
-    {
-        $twig = $this->getTwig();
-        $template = $twig->load($template);
-        $context["elements"] = $this->getElements();
-        return $template->render($context);
-    }
-
-    /**
-     * @return TwigEnvironment
-     */
-    protected function getTwig()
-    {
-        $loader = new TwigFSLoader($this->projectRootFolder . "/templates");
-
-        $twigEnvOptions = [
-            'cache' => $this->projectRootFolder . "/tmp",
-            'debug' => true,
-            'auto_reload' => true,
-            'strict_variables' => false
-        ];
-
-        return new TwigEnvironment($loader, $twigEnvOptions);
-    }
 
 
     /* Getters and Setters */
