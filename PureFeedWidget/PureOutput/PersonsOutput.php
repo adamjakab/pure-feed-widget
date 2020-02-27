@@ -60,11 +60,13 @@ class PersonsOutput extends Output
             "uuid",
             "name.firstName",
             "name.lastName",
-            "info.portalUrl",
+            "info.*",
             "profilePhotos.url",
-            "profileInformations.type",
-            "profileInformations.value",
-            "staffOrganisationAssociations.organisationalUnit.name.value"
+            "profileInformations.type.term.text.value",
+            "profileInformations.value.text.value",
+            "staffOrganisationAssociations.organisationalUnit.name.text.value",
+            "renderings.format",
+            "renderings.html"
         ];
 
         $requestHeaders = [];

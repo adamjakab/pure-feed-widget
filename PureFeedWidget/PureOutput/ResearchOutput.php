@@ -58,7 +58,7 @@ class ResearchOutput extends Output
             "pureId",
             "uuid",
             "title.value",
-            "info.portalUrl",
+            "info.*",
             "managingOrganisationalUnit.name.text.value",
             "confidential",
             "abstract.text.value",
