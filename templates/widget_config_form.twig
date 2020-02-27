@@ -3,9 +3,7 @@
 {# TWIG FORM {{ name }}#}
 {# Just call the macros ;) #}
 {{ wcMmacros.renderField(field.title) }}
-{{ wcMmacros.inputField(field.url) }}
-{{ wcMmacros.inputField(field.api_key) }}
-{{ wcMmacros.inputField(field.organization_uuid) }}
 {{ wcMmacros.selectField(field.endpoint) }}
+{{ wcMmacros.inputField(field.organization_uuid) }}
 {{ wcMmacros.inputField(field.size) }}
 {{ wcMmacros.selectField(field.rendering) }}

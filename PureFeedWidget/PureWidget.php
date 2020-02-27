@@ -43,15 +43,13 @@ class PureWidget extends \WP_Widget
     {
         $widget_ops = array(
             'classname' => 'pure_widget',
-            'description' => 'Pure feed widget',
+            'description' => 'Pure Feed Widget',
         );
-        parent::__construct('pure_widget', 'Pure Feed widget', $widget_ops);
+        parent::__construct('pure_widget', 'Pure Feed Widget', $widget_ops);
     }
 
     /**
-     * Widget output.
-     *
-     * Prints nice HTML, or that's the idea.
+     * Print output based on widget configuration options
      *
      * @param array $args Stuff from WordPress.
      * @param array $instance Widget configuration options.
@@ -70,14 +68,11 @@ class PureWidget extends \WP_Widget
         echo apply_filters('widget_title', $instance['title']);
         echo $args['after_title'];
 
-
         // Add admin config options
         $adminConfig = new AdminConfig();
         $adminConfig->refreshAdminSettings();
-        $instance["api_url"] = $adminConfig->getAdminOption("api_url", "x");
-        $instance["api_key"] = $adminConfig->getAdminOption("api_key", "y");
-
-
+        $instance["api_url"] = $adminConfig->getAdminOption("api_url", "");
+        $instance["api_key"] = $adminConfig->getAdminOption("api_key", "");
 
         $pure = new Pure($instance);
         $out = $pure->getOutput();
@@ -88,6 +83,7 @@ class PureWidget extends \WP_Widget
 
 
     /**
+     * Render the widget configuration form
      * @param array $instance
      * @return string|void
      */
@@ -98,13 +94,16 @@ class PureWidget extends \WP_Widget
         $context = [
             "name" => "Pure Feed Widget Configuration",
             "field" => [
-                "title" => $this->getContextValuesForField("title", "Title", "text", $instance, true),
-                "url" => $this->getContextValuesForField("url", "API URL", "text", $instance, true),
-                "api_key" => $this->getContextValuesForField("api_key", "API KEY", "text", $instance, true),
-                "organization_uuid" => $this->getContextValuesForField("organization_uuid", "Organization UUID", "text", $instance, false),
-                "endpoint" => $this->getContextValuesForField("endpoint", "Pure API endpoint", "select", $instance, true, $this->endpoint_options),
-                "size" => $this->getContextValuesForField("size", "Maximum fetch size", "text", $instance, false),
-                "rendering" => $this->getContextValuesForField("rendering", "Remote rendering format", "select", $instance, true, $this->rendering_options),
+                "title" => $this->getContextValuesForField(
+                    "title", "Title", "text", $instance, true),
+                "endpoint" => $this->getContextValuesForField(
+                    "endpoint", "Pure API endpoint", "select", $instance, true, $this->endpoint_options),
+                "organization_uuid" => $this->getContextValuesForField(
+                    "organization_uuid", "Organization UUID", "text", $instance, false),
+                "size" => $this->getContextValuesForField(
+                    "size", "Maximum fetch size", "text", $instance, false),
+                "rendering" => $this->getContextValuesForField(
+                    "rendering", "Remote rendering format", "select", $instance, true, $this->rendering_options),
             ],
         ];
 
@@ -112,7 +111,7 @@ class PureWidget extends \WP_Widget
     }
 
     /**
-     * Save widget options.
+     * Store the widget options
      *
      * @param array $new New widget configuration options.
      * @param array $old Old widget configuration options.
@@ -122,10 +121,8 @@ class PureWidget extends \WP_Widget
     {
         $instance = [];
         $instance['title'] = $this->getInstanceValue("title", $new, $old);
-        $instance['url'] = $this->getInstanceValue("url", $new, $old);
-        $instance['api_key'] = $this->getInstanceValue("api_key", $new, $old);
-        $instance['organization_uuid'] = $this->getInstanceValue("organization_uuid", $new, $old);
         $instance['endpoint'] = $this->getInstanceValue("endpoint", $new, $old);
+        $instance['organization_uuid'] = $this->getInstanceValue("organization_uuid", $new, $old);
         $instance['size'] = $this->getInstanceValue("size", $new, $old);
         $instance['rendering'] = $this->getInstanceValue("rendering", $new, $old);
 
