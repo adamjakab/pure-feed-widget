@@ -53,6 +53,12 @@ class Research
     /** @var  string */
     private $publication_status = "";
 
+    /** @var  string */
+    private $pure_rendered_format = "";
+
+    /** @var  string */
+    private $pure_rendered_html = "";
+
     /** @var  array */
     private $persons = "";
 
@@ -85,8 +91,17 @@ class Research
         $this->setResearchArea($this->getFirstValue($item->mainResearchArea->term->text));
         $this->setVisibility($this->getFirstValue($item->visibility->value));
         //
-        $this->setPublicationYear($item->publicationStatuses[0]->publicationDate->year);
-        $this->setPublicationStatus($this->getFirstValue($item->publicationStatuses[0]->publicationStatus->term->text));
+        if (count($item->publicationStatuses[0]) > 0) {
+            $firstPublicationStatus = $item->publicationStatuses[0];
+            $this->setPublicationYear($firstPublicationStatus->publicationDate->year);
+            $this->setPublicationStatus($this->getFirstValue($firstPublicationStatus->publicationStatus->term->text));
+        }
+        //
+        if (count($item->renderings[0]) > 0) {
+            $this->setPureRenderedFormat($item->renderings[0]->format);
+            $this->setPureRenderedHtml($item->renderings[0]->html);
+        }
+        //
         // $persons
         // $org_units
     }
@@ -95,13 +110,12 @@ class Research
      * @param mixed $itemElement
      * @return string
      */
-    protected function getFirstValue($itemElement) {
+    protected function getFirstValue($itemElement)
+    {
         $answer = "";
 
-        if (is_array($itemElement) && count($itemElement) > 0)
-        {
-            if(property_exists($itemElement[0], "value"))
-            {
+        if (is_array($itemElement) && count($itemElement) > 0) {
+            if (property_exists($itemElement[0], "value")) {
                 $answer = $itemElement[0]->value;
             }
         }
@@ -347,6 +361,38 @@ class Research
     protected function setPublicationStatus(string $publication_status): void
     {
         $this->publication_status = $publication_status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPureRenderedFormat(): string
+    {
+        return $this->pure_rendered_format;
+    }
+
+    /**
+     * @param string $pure_rendered_format
+     */
+    protected function setPureRenderedFormat(string $pure_rendered_format): void
+    {
+        $this->pure_rendered_format = $pure_rendered_format;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPureRenderedHtml(): string
+    {
+        return $this->pure_rendered_html;
+    }
+
+    /**
+     * @param string $pure_rendered_html
+     */
+    protected function setPureRenderedHtml(string $pure_rendered_html): void
+    {
+        $this->pure_rendered_html = $pure_rendered_html;
     }
 
     /**

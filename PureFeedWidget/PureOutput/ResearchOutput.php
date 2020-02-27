@@ -76,8 +76,12 @@ class ResearchOutput extends Output
             "personAssociations.personRole.term.text.value",
             "organisationalUnits.uuid",
             "organisationalUnits.name.text.value",
+            "renderings.format",
+            "renderings.html"
         ];
+
         if ($this->getRendering() != "None") {
+            $requestBody["linkingStrategy"] = "portalLinkingStrategy";
             $requestBody["renderings"] = [$this->getRendering()];
         }
 

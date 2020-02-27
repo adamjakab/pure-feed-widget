@@ -60,6 +60,8 @@ class Output
             'headers' => $headers,
         ];
 
+        #print(json_encode($requestBody));
+
         $response = wp_remote_post($this->getFullEndpointUrl(), $args);
         if (is_wp_error($response)) {
             throw new Exception("WP is unable process the request. "

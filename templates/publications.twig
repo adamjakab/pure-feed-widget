@@ -28,11 +28,18 @@
             PureId: {{ element.pureId }}<br />
             UUID: {{ element.uuid }}<br />
         </code>
-
         <br/>
+
+        {% if element.abstract is not empty %}
+            <div>
+                <strong>Abstract: </strong>
+                <p>{{ element.abstract }}</p>
+            </div>
+        {% endif %}
+
         <div>
-            <strong>Abstract: </strong>
-            <p>{{ element.abstract }}</p>
+            <strong>Pure Rendered ({{ element.pureRenderedFormat }}): </strong>
+            {{ element.pureRenderedHtml|raw }}
         </div>
 
 
@@ -43,5 +50,6 @@
 {% endblock %}
 
 {% block footing %}
+    <hr />
     <p>{{ description }} {{ elements|length }}</p>
 {% endblock %}
