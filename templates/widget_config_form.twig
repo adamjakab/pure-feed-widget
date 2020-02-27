@@ -1,11 +1,11 @@
-{% import "macros/form_macros.twig" as formMacros %}
+{% import "macros/widget_config_macros.twig" as wcMmacros %}
 
 {# TWIG FORM {{ name }}#}
 {# Just call the macros ;) #}
-{{ formMacros.renderField(field.title) }}
-{{ formMacros.inputField(field.url) }}
-{{ formMacros.inputField(field.api_key) }}
-{{ formMacros.inputField(field.organization_uuid) }}
-{{ formMacros.selectField(field.endpoint) }}
-{{ formMacros.inputField(field.size) }}
-{{ formMacros.selectField(field.rendering) }}
+{{ wcMmacros.renderField(field.title) }}
+{{ wcMmacros.inputField(field.url) }}
+{{ wcMmacros.inputField(field.api_key) }}
+{{ wcMmacros.inputField(field.organization_uuid) }}
+{{ wcMmacros.selectField(field.endpoint) }}
+{{ wcMmacros.inputField(field.size) }}
+{{ wcMmacros.selectField(field.rendering) }}

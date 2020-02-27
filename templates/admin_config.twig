@@ -1,0 +1,45 @@
+<div class="wrap" >
+    <div id="icon-options-general" class="icon32"><br /></div>
+    <h2>{{ title }}</h2>
+
+    <p class="description">
+        This is the central configuration of your Pure widgets. All operations to the Pure backend will
+        be executed through the API url you set here authenticated by the API key.
+    </p>
+
+    <form method="post" action="{{ form_action }}">
+        <input type="hidden" name="action" value="process_form">
+        <input type="hidden" name="form_name" value="{{ form_name }}">
+
+        <table class="form-table" role="presentation">
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        <label for="api_url">API URL</label>
+                    </th>
+                    <td>
+                        <input type="text" id="api_url" name="pure_feed_widget[api_url]" value="{{ api_url }}" class="widefat"/>
+                        <p class="description">This is tipically something like 'https://your.pure.comain/ws/api/516'.</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">
+                        <label for="api_key">API KEY</label>
+                    </th>
+                    <td>
+                        <input type="text" id="api_key" name="pure_feed_widget[api_key]" value="{{ api_key }}" class="widefat"/>
+                        <p class="description">You will need to get one from your Pure administrator.</p>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <p class="submit">
+            <input type="submit" value="Save Changes" class="button button-primary"/>
+        </p>
+
+    </form>
+</div>
+

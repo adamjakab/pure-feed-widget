@@ -11,12 +11,15 @@
  *
  * See here though for merging this WordPress docblock with phpdoc docblock https://developer.wordpress.org/plugins/plugin-basics/header-requirements/
  *
- * @package PureFeedWidget
  */
 
+use PureFeedWidget\AdminConfig;
 
 require __DIR__ . '/vendor/autoload.php';
 
+/**
+ * Register the Widget
+ */
 add_action(
     'widgets_init',
     function () {
@@ -24,3 +27,9 @@ add_action(
     }
 );
 
+/**
+ * Register the Admin Configuration page
+ */
+if (is_admin()) {
+    $adminConfig = new AdminConfig();
+}
