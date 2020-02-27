@@ -1,15 +1,21 @@
 PURE API NOTES
 ==============
 
-These are some notes I managed to gather mostly from the error messages.
+These are some notes I managed to gather.
 
-###API URL:
-On the Pure deployment I was working on after some trial and error I found out that the following urls were accessible:
+### API URL:
+The following Pure API urls are accessible:
 - `https://<domain>/ws/api/513`
 - `https://<domain>/ws/api/516`
 
-I ended up using the 513 version (I assume it refers to the version of the API v5.1.3.).
-Everything that follows in these notes are through the API calls to this version.
+### API DOCUMENTATION 
+
+
+https://<domain>/ws/api/516/api-docs/index.html#/
+
+schema:
+https://<domain>/ws/api/516/swagger.json
+
 
 
 ### RESEARCH OUTPUT 
@@ -114,4 +120,7 @@ EXAMPLE:
     }
 }
 ```
+
+### ACKNOWLEDGEMETS:
+Great thanks to [David](https://github.com/nihiliad) for providing [super useful information](https://github.com/UMNLibraries/pureapi/issues/6) when I was in the dark...
 
