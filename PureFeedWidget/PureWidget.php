@@ -28,10 +28,11 @@ class PureWidget extends \WP_Widget
     /**
      * Once these came from:  $url . '/research-outputs-meta/renderings?apiKey=' . $apikey;
      * For now I took it out
+     * "None" is a special option for not using any server side rendering
      *
      * @var array
      */
-    protected $rendering_options = ["portal-short", "standard", "detailsPortal", "mla", "author", "cbe", "authorlist",
+    protected $rendering_options = ["None", "portal-short", "standard", "detailsPortal", "mla", "author", "cbe", "authorlist",
         "long", "BIBTEX", "vancouver", "system", "apa", "short", "harvard", "RIS", "researchOutputHeader"];
 
 
@@ -83,25 +84,22 @@ class PureWidget extends \WP_Widget
      */
     public function form($instance)
     {
-        $form = "";
+        $renderer = new Renderer(['auto_reload' => true, 'strict_variables' => true]);
 
-        $title = $this->getInstanceValue("title", $instance, []);
-        $url = $this->getInstanceValue("url", $instance, []);
-        $api_key = $this->getInstanceValue("api_key", $instance, []);
-        $organization_uuid = $this->getInstanceValue("organization_uuid", $instance, []);
-        $endpoint = $this->getInstanceValue("endpoint", $instance, []);
-        $size = $this->getInstanceValue("size", $instance, []);
-        $rendering = $this->getInstanceValue("rendering", $instance, []);
+        $context = [
+            "name" => "Pure Feed Widget Configuration",
+            "field" => [
+                "title" => $this->getContextValuesForField("title", "Title", "text", $instance, true),
+                "url" => $this->getContextValuesForField("url", "API URL", "text", $instance, true),
+                "api_key" => $this->getContextValuesForField("api_key", "API KEY", "text", $instance, true),
+                "organization_uuid" => $this->getContextValuesForField("organization_uuid", "Organization UUID", "text", $instance, false),
+                "endpoint" => $this->getContextValuesForField("endpoint", "Pure API endpoint", "select", $instance, true, $this->endpoint_options),
+                "size" => $this->getContextValuesForField("size", "Maximum fetch size", "text", $instance, false),
+                "rendering" => $this->getContextValuesForField("rendering", "Remote rendering format", "select", $instance, true, $this->rendering_options),
+            ],
+        ];
 
-        $form .= $this->getFormInputField("title", "Title", $title);
-        $form .= $this->getFormInputField("url", "API URL", $url, true);
-        $form .= $this->getFormInputField("api_key", "API KEY", $api_key, true);
-        $form .= $this->getFormInputField("organization_uuid", "Organization UUID", $organization_uuid);
-        $form .= $this->getFormSelectField("endpoint", "Select an endpoint", $endpoint, $this->endpoint_options);
-        $form .= $this->getFormInputField("size", "Number of items", $size);
-        $form .= $this->getFormSelectField("rendering", "Remote rendering format", $rendering, $this->rendering_options, true);
-
-        print $form;
+        print  $renderer->render("widget_config_form.twig", $context);
     }
 
     /**
@@ -123,6 +121,29 @@ class PureWidget extends \WP_Widget
         $instance['rendering'] = $this->getInstanceValue("rendering", $new, $old);
 
         return $instance;
+    }
+
+    /**
+     * @param string $id
+     * @param string $label
+     * @param string $type
+     * @param array $instance
+     * @param bool $required
+     * @param array $options
+     * @return array
+     */
+    protected function getContextValuesForField(string $id, string $label, string $type, array $instance, bool $required = false, array $options = [])
+    {
+        return [
+            "id" => esc_attr($this->get_field_id($id)),
+            "name" => esc_attr($this->get_field_name($id)),
+            "value" => $this->getInstanceValue($id, $instance, []),
+            "label" => $label,
+            "class" => $id,
+            "type" => $type,
+            "required" => $required,
+            "options" => $options
+        ];
     }
 
     /**
@@ -150,78 +171,5 @@ class PureWidget extends \WP_Widget
         $value = trim(strip_tags($value));
 
         return $value;
-    }
-
-    /**
-     * @param string $field_name
-     * @param string $field_title
-     * @param string $field_value
-     * @param bool $required
-     * @return string
-     * @todo: use twig for this
-     *
-     */
-    protected function getFormInputField($field_name, $field_title, $field_value, $required = false)
-    {
-        $field = '';
-
-        $field_title .= $required ? '(*)' : '';
-
-        $field .=
-            '<p>'
-            . '<label for="' . esc_attr($this->get_field_id($field_name)) . '">'
-            . esc_attr($field_title)
-            . '<input'
-            . ' id="' . esc_attr($this->get_field_id($field_name)) . '"'
-            . ' class="' . join(" ", [$field_name, "widefat"]) . '"'
-            . ' name="' . esc_attr($this->get_field_name($field_name)) . '"'
-            . ' value="' . $field_value . '"'
-            . ($required ? 'required' : '')
-            . ' type="text"'
-            . '>'
-            . '</label>'
-            . '</p>';
-
-        return $field;
-    }
-
-    /**
-     * @param string $field_name
-     * @param string $field_title
-     * @param string $field_value
-     * @param array $options
-     * @param bool $allow_none
-     * @return string
-     * @todo: use twig for this
-     *
-     */
-    protected function getFormSelectField($field_name, $field_title, $field_value, $options, $allow_none = false)
-    {
-        $field = '';
-
-        $field .=
-            '<p>'
-            . '<label for="' . esc_attr($this->get_field_id($field_name)) . '">'
-            . esc_attr($field_title)
-            . '<select'
-            . ' id="' . esc_attr($this->get_field_id($field_name)) . '"'
-            . ' class="' . join(" ", [$field_name, "widefat"]) . '"'
-            . ' name="' . esc_attr($this->get_field_name($field_name)) . '"'
-            . '>';
-
-        sort($options);
-        if ($allow_none) {
-            array_unshift($options, "None");
-        }
-        foreach ($options as $option) {
-            $field .= '<option value="' . $option . '"' . ($option == esc_attr($field_value) ? ' selected' : null) . '>' . $option . '</option>';
-        }
-
-        $field .=
-            '</select>'
-            . '</label>'
-            . '</p>';
-
-        return $field;
     }
 }

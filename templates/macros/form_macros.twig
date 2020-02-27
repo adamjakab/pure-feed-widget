@@ -1,0 +1,46 @@
+
+{# Render the field based on the type #}
+{% macro renderField(field) %}
+    {% if field.value == "select" %}
+        {{ _self.selectField(field) }}
+    {% else %}
+        {{ _self.inputField(field) }}
+    {% endif %}
+{% endmacro %}
+
+{# INPUT FIELD #}
+{% macro inputField(field) %}
+    <p>
+        <label for="{{ field.id }}">
+            {{ field.label }}{{ field.required ? '(*)' : '' }}
+            <input id="{{ field.id }}"
+                   name="{{ field.name }}"
+                   value="{{ field.value }}"
+                   class="{{ field.class }} widefat"
+                   type="{{ field.type }}"
+                    {{ field.required ? 'required' : '' }}
+            >
+        </label>
+    </p>
+    <hr />
+{% endmacro %}
+
+{# SELECT FIELD #}
+{% macro selectField(field) %}
+    <p>
+        <label for="{{ field.id }}">
+            {{ field.label }}{{ field.required ? '(*)' : '' }}
+            <select id="{{ field.id }}" name="{{ field.name }}" class="{{ field.class }} widefat">
+                {% for option in field.options %}
+                    {% set selected = '' %}
+                    {% if option == field.value %}
+                        {% set selected = 'selected' %}
+                    {% endif %}
+                    <option value="{{ field.value }}" {{ selected }}>{{ option }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </p>
+    <hr />
+{% endmacro %}
+

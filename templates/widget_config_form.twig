@@ -1,0 +1,11 @@
+{% import "macros/form_macros.twig" as formMacros %}
+
+{# TWIG FORM {{ name }}#}
+{# Just call the macros ;) #}
+{{ formMacros.renderField(field.title) }}
+{{ formMacros.inputField(field.url) }}
+{{ formMacros.inputField(field.api_key) }}
+{{ formMacros.inputField(field.organization_uuid) }}
+{{ formMacros.selectField(field.endpoint) }}
+{{ formMacros.inputField(field.size) }}
+{{ formMacros.selectField(field.rendering) }}
