@@ -92,7 +92,6 @@ class Output
     {
         $twig = $this->getTwig();
         $template = $twig->load($template);
-        $context["name"] = "PERSONS";
         $context["elements"] = $this->getElements();
         return $template->render($context);
     }

@@ -65,7 +65,7 @@ class Pure
         $PO->setSize($this->config["size"]);
         $PO->setRendering($this->config["rendering"]);
         $PO->load();
-        return $PO->getRenderedOutput("persons.twig");
+        return $PO->getRenderedOutput("persons.twig", ["description" => "Researchers in the Pure database."]);
     }
 
     /**

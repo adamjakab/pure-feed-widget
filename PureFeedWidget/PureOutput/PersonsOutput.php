@@ -20,12 +20,17 @@ class PersonsOutput extends Output
 
     }
 
+    /**
+     * This is a proxy method so that in future here we can rely on cached content instead of querying all the time
+     */
     public function load() {
         $this->queryPure();
         $this->createElements();
-        print("GOT: " . $this->getElementCount());
     }
 
+    /**
+     * Creates Person elements from raw response
+     */
     protected function createElements() {
         $raw = $this->getRawResponse();
         if (property_exists($raw, "items") && is_array($raw->items)) {
@@ -54,6 +59,7 @@ class PersonsOutput extends Output
             "uuid",
             "name.firstName",
             "name.lastName",
+            "info.portalUrl",
             "profilePhotos.url",
             "profileInformations.type",
             "profileInformations.value",

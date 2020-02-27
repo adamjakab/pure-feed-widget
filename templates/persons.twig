@@ -1,13 +1,36 @@
-{# @var elements \PureFeedWidget\Entity\Person[] #}
-<p>
-    This is a {{ name }} template.<br />
-    Researchers: {{ elements|length }}
-</p>
+{% extends "widget.twig" %}
 
+{% block heading %}
+    <p>{{ description }} {{ elements|length }}</p>
+{% endblock %}
 
-{% for element in elements %}
-    <div class="pure_element person">
-        <h3>{{ element.fullName }}</h3>
-        <span>({{ element.uuid }})</span>
+{% block content %}
+    <div class="containerx">
+    {% for elbatch in elements|batch(4) %}
+        <div class="row">
+        {% for element in elbatch %}
+            {# @var element \PureFeedWidget\Entity\Person #}
+            <div class="col col-md-3 col-sm-6 col-xs-12">
+                <div class="team-block-item pure_element person" data-pure-uuid="{{ element.uuid }}">
+
+                    <div class="profile-image">
+                        {% if element.photoUrl is not empty %}
+                            <div class="round" style="background-image: url({{ element.photoUrl }})">
+                            </div>
+                        {% else %}
+                            <div class="round" style="background-image: url(/wp-content/plugins/pure-feed-widget/images/no_photo.jpg)">
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <h3 class="name">{{ element.fullName }}</h3>
+
+                    <a href="{{ element.portalUrl }}" target="_blank">Pure profile</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
     </div>
-{% endfor %}
+{% endblock %}
+

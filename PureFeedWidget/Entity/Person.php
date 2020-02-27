@@ -9,16 +9,22 @@ use stdClass;
 class Person
 {
     /** @var  string  */
-    private $pure_id;
+    private $pure_id = "";
 
     /** @var  string  */
-    private $uuid;
+    private $uuid = "";
 
     /** @var  string  */
-    private $first_name;
+    private $first_name = "";
 
     /** @var  string  */
-    private $last_name;
+    private $last_name = "";
+
+    /** @var string */
+    private $portal_url = "";
+
+    /** @var string */
+    private $photo_url = "";
 
 
     /**
@@ -35,6 +41,8 @@ class Person
         $this->setUuid($item->uuid);
         $this->setFirstName($item->name->firstName);
         $this->setLastName($item->name->lastName);
+        $this->setPortalUrl($item->info->portalUrl);
+        $this->setPhotoUrl($item->profilePhotos);
     }
 
     /**
@@ -106,7 +114,50 @@ class Person
      */
     public function getFullName(): string
     {
-        return $this->last_name . " " . $this->first_name;
+        return $this->first_name . " " . $this->last_name;
     }
+
+    /**
+     * @return string
+     */
+    public function getPortalUrl(): string
+    {
+        return $this->portal_url;
+    }
+
+    /**
+     * @param string $portal_url
+     */
+    protected function setPortalUrl(string $portal_url): void
+    {
+        $this->portal_url = $portal_url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhotoUrl(): string
+    {
+        return $this->photo_url;
+    }
+
+    /**
+     * Get the first available url
+     * @param array|null $photos
+     */
+    protected function setPhotoUrl($photos): void
+    {
+        if(is_array($photos)) {
+            foreach ($photos as $photo) {
+                if (property_exists($photo, "url")) {
+                    if (!is_null($photo->url) && !empty($photo->url)) {
+                        $this->photo_url = $photo->url;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
 
 }

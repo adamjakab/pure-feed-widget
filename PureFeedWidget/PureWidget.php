@@ -59,6 +59,11 @@ class PureWidget extends \WP_Widget
      */
     public function widget($args, $instance)
     {
+        wp_enqueue_style( 'bootstrap-grid-only',
+            plugin_dir_url(dirname(__FILE__)) . '/css/bootstrap.min.css' );
+        wp_enqueue_style( 'pure-feed-widget',
+            plugin_dir_url(dirname(__FILE__)) . '/css/pure-feed-widget.css' );
+
         echo $args['before_widget'];
         echo $args['before_title'];
         echo apply_filters('widget_title', $instance['title']);
