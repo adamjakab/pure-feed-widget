@@ -52,14 +52,11 @@ class Output
      */
     protected function sendRequestToPure(array $requestBody, array $headers )
     {
-        $url = trim($this->url, "/") . '/' . trim($this->api_endpoint, "/")
-            . '?' . http_build_query(['apiKey' => $this->api_key]);
-
-
         $requestBody["size"] = $this->getSize();
         $requestBody["offset"] = 0;
         $requestBody["locales"] = ["en_GB"];
 
+        $headers['api-key'] = $this->api_key;
         $headers['Accept'] = 'application/json';
         $headers['Content-Type'] = 'application/json';
 
@@ -68,7 +65,7 @@ class Output
             'headers' => $headers,
         ];
 
-        $response = wp_remote_post($url, $args);
+        $response = wp_remote_post($this->getFullEndpointUrl(), $args);
         if (is_wp_error($response)) {
             throw new Exception("WP is unable process the request. "
                 . $response->get_error_message());
@@ -118,8 +115,11 @@ class Output
     }
 
 
+    /* Getters and Setters */
 
-
+    public function getFullEndpointUrl() {
+        return $this->getUrl() . '/' . $this->getApiEndpoint();
+    }
 
     /**
      * @return string
@@ -134,7 +134,7 @@ class Output
      */
     public function setUrl(string $url): void
     {
-        $this->url = $url;
+        $this->url = trim($url, "/");
     }
 
     /**
@@ -182,7 +182,7 @@ class Output
      */
     protected function setApiEndpoint(string $api_endpoint): void
     {
-        $this->api_endpoint = $api_endpoint;
+        $this->api_endpoint = trim($api_endpoint, "/");
     }
 
     /**
