@@ -5,6 +5,7 @@ namespace PureFeedWidget\PureOutput;
 
 use Exception;
 use stdClass;
+use WP_HTTP_Requests_Response;
 
 
 class Output
@@ -64,8 +65,14 @@ class Output
             throw new Exception("WP is unable process the request. "
                 . $response->get_error_message());
         }
-        if (!is_array($response)) {
+        if (!is_array($response) || !array_key_exists("http_response", $response)) {
             throw new Exception("Bad response from server! Expected array!");
+        }
+
+        /** @var WP_HTTP_Requests_Response $http_response */
+        $http_response = $response["http_response"];
+        if($http_response->get_status() != 200) {
+            throw new Exception("Bad request status! " . $http_response->get_data());
         }
 
         $response_body = wp_remote_retrieve_body($response);
@@ -191,7 +198,7 @@ class Output
      */
     public function getRawResponse(): stdClass
     {
-        return $this->raw_response;
+        return  $this->raw_response instanceof stdClass ? $this->raw_response : new stdClass();
     }
 
     /**
