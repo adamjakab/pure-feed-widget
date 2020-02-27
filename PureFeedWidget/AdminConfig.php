@@ -38,7 +38,7 @@ class AdminConfig
         ];
 
         add_action('admin_menu', array(&$this, 'registerSettingsPage'));
-        add_action('admin_init', array(&$this, 'registerSettingsHandler'));
+        add_action('admin_init', array(&$this, 'refreshAdminSettings'));
         add_action('admin_post_process_form', array(&$this, 'handlePostRequest'));
     }
 
@@ -53,7 +53,7 @@ class AdminConfig
     /**
      * Get (or set default) serialized options from WP and store it locally as array
      */
-    public function registerSettingsHandler()
+    public function refreshAdminSettings()
     {
         $serialized = get_option($this->wp_option_key_name, null);
         if (is_null($serialized)) {
@@ -122,7 +122,7 @@ class AdminConfig
      * @param string $default
      * @return mixed|string
      */
-    protected function getAdminOption(string $name, $default = "")
+    public function getAdminOption(string $name, $default = "")
     {
         $answer = $default;
         if (array_key_exists($name, $this->wp_options)) {

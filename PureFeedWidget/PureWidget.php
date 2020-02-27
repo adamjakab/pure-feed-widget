@@ -70,6 +70,15 @@ class PureWidget extends \WP_Widget
         echo apply_filters('widget_title', $instance['title']);
         echo $args['after_title'];
 
+
+        // Add admin config options
+        $adminConfig = new AdminConfig();
+        $adminConfig->refreshAdminSettings();
+        $instance["api_url"] = $adminConfig->getAdminOption("api_url", "x");
+        $instance["api_key"] = $adminConfig->getAdminOption("api_key", "y");
+
+
+
         $pure = new Pure($instance);
         $out = $pure->getOutput();
         print($out);
