@@ -1,25 +1,26 @@
 PURE API NOTES
 ==============
-
 These are some notes I managed to gather.
 
+To use the API first of all you will need to get an API key from your Pure administrator.
+
 ### API URL:
-The following Pure API urls are accessible:
-- `https://<domain>/ws/api/513`
-- `https://<domain>/ws/api/516`
+At the time of writing, the following Pure API urls are accessible:
+- `https://pure.api.domain/ws/api/513`
+- `https://pure.api.domain/ws/api/516`
 
 ### API DOCUMENTATION 
+The first and most important thing you have is the on-line API docs.
 
+[https://pure.api.domain/ws/api/516/api-docs/index.html#/](https://pure.api.domain/ws/api/516/api-docs/index.html#/)
 
-https://<domain>/ws/api/516/api-docs/index.html#/
+Here you can authenticate with your API key, see what you have access to and you can try out the different endpoints.
 
-schema:
-https://<domain>/ws/api/516/swagger.json
-
+Elsevier Pure uses https://swagger.io/ to build the interactive docs. The position of the schema document is here:
+[https://pure.api.domain/ws/api/516/swagger.json](https://pure.api.domain/ws/api/516/swagger.json)
 
 
 ### RESEARCH OUTPUT 
-
 Endpoint: `/research-outputs`
 
  ####Allowed keys:
@@ -62,7 +63,6 @@ Endpoint: `/research-outputs`
  *
 
 ### PERSONS
-
 Endpoint: `/persons`
 
  ####Allowed keys:
@@ -121,6 +121,7 @@ EXAMPLE:
 }
 ```
 
+
+
 ### ACKNOWLEDGEMETS:
 Great thanks to [David](https://github.com/nihiliad) for providing [super useful information](https://github.com/UMNLibraries/pureapi/issues/6) when I was in the dark...
-
