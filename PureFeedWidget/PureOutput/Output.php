@@ -21,22 +21,22 @@ class Output
     /** @var string */
     private $organization_uuid;
 
-    /** @var string  */
+    /** @var string */
     private $api_endpoint = "";
 
-    /** @var string  */
+    /** @var string */
     private $projectRootFolder = "";
 
-    /** @var int  */
+    /** @var int */
     private $size = 5;
 
-    /** @var string  */
+    /** @var string */
     private $rendering = "None";
 
     /** @var stdClass */
     private $raw_response;
 
-    /** @var array  */
+    /** @var array */
     private $elements = [];
 
 
@@ -50,7 +50,7 @@ class Output
      * @param array $headers
      * @throws Exception
      */
-    protected function sendRequestToPure(array $requestBody, array $headers )
+    protected function sendRequestToPure(array $requestBody, array $headers)
     {
         $requestBody["size"] = $this->getSize();
         $requestBody["offset"] = 0;
@@ -75,12 +75,12 @@ class Output
         }
 
         $response_body = wp_remote_retrieve_body($response);
-        if(empty($response_body)){
+        if (empty($response_body)) {
             throw new Exception("Empty response from server!");
         }
 
         $this->raw_response = json_decode($response_body);
-        if(json_last_error() != JSON_ERROR_NONE){
+        if (json_last_error() != JSON_ERROR_NONE) {
             throw new Exception("Unable to json decode server response! " . json_last_error_msg());
         }
 
@@ -116,7 +116,8 @@ class Output
 
     /* Getters and Setters */
 
-    public function getFullEndpointUrl() {
+    public function getFullEndpointUrl()
+    {
         return $this->getUrl() . '/' . $this->getApiEndpoint();
     }
 

@@ -14,7 +14,7 @@ use Exception;
  */
 class PureWidget extends \WP_Widget
 {
-    /** @var array  */
+    /** @var array */
     protected $defaults = [
         "title" => "Publications",
         "endpoint" => "Research-Outputs",
@@ -22,7 +22,7 @@ class PureWidget extends \WP_Widget
         "rendering" => "None"
     ];
 
-    /** @var array  */
+    /** @var array */
     protected $endpoint_options = ["Research-Outputs", "Persons"];
 
     /**
@@ -59,10 +59,10 @@ class PureWidget extends \WP_Widget
      */
     public function widget($args, $instance)
     {
-        wp_enqueue_style( 'bootstrap-grid-only',
-            plugin_dir_url(dirname(__FILE__)) . '/css/bootstrap.min.css' );
-        wp_enqueue_style( 'pure-feed-widget',
-            plugin_dir_url(dirname(__FILE__)) . '/css/pure-feed-widget.css' );
+        wp_enqueue_style('bootstrap-grid-only',
+            plugin_dir_url(dirname(__FILE__)) . '/css/bootstrap.min.css');
+        wp_enqueue_style('pure-feed-widget',
+            plugin_dir_url(dirname(__FILE__)) . '/css/pure-feed-widget.css');
 
         echo $args['before_widget'];
         echo $args['before_title'];
@@ -75,8 +75,6 @@ class PureWidget extends \WP_Widget
 
         echo $args['after_widget'];
     }
-
-
 
 
     /**
@@ -155,13 +153,13 @@ class PureWidget extends \WP_Widget
     }
 
     /**
-     * @todo: use twig for this
-     *
      * @param string $field_name
      * @param string $field_title
      * @param string $field_value
      * @param bool $required
      * @return string
+     * @todo: use twig for this
+     *
      */
     protected function getFormInputField($field_name, $field_title, $field_value, $required = false)
     {
@@ -197,7 +195,7 @@ class PureWidget extends \WP_Widget
      * @todo: use twig for this
      *
      */
-    protected function getFormSelectField($field_name, $field_title, $field_value, $options, $allow_none=false)
+    protected function getFormSelectField($field_name, $field_title, $field_value, $options, $allow_none = false)
     {
         $field = '';
 
@@ -215,7 +213,7 @@ class PureWidget extends \WP_Widget
         if ($allow_none) {
             array_unshift($options, "None");
         }
-        foreach($options as $option) {
+        foreach ($options as $option) {
             $field .= '<option value="' . $option . '"' . ($option == esc_attr($field_value) ? ' selected' : null) . '>' . $option . '</option>';
         }
 

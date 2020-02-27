@@ -9,7 +9,7 @@ use PureFeedWidget\Entity\Person;
 
 class PersonsOutput extends Output
 {
-    /** @var string  */
+    /** @var string */
     private const __ENDPOINT__ = "/persons";
 
 
@@ -23,7 +23,8 @@ class PersonsOutput extends Output
     /**
      * This is a proxy method so that in future here we can rely on cached content instead of querying all the time
      */
-    public function load() {
+    public function load()
+    {
         $this->queryPure();
         $this->createElements();
     }
@@ -31,7 +32,8 @@ class PersonsOutput extends Output
     /**
      * Creates Person elements from raw response
      */
-    protected function createElements() {
+    protected function createElements()
+    {
         $raw = $this->getRawResponse();
         if (property_exists($raw, "items") && is_array($raw->items)) {
             foreach ($raw->items as $item) {
@@ -48,8 +50,7 @@ class PersonsOutput extends Output
     {
         $requestBody = [];
         $requestBody["orderings"] = ["lastName"];
-        if ($this->getOrganizationUuid())
-        {
+        if ($this->getOrganizationUuid()) {
             $requestBody["forOrganisations"] = [
                 "uuids" => [$this->getOrganizationUuid()]
             ];

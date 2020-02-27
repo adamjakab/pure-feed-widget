@@ -1,28 +1,29 @@
-.pure-feed-widget{
+.pure-feed-widget {
 
 }
 
-.pure-feed-widget .row{
+.pure-feed-widget .row {
 }
 
-.pure-feed-widget .pure_element{
-    width:100%;
+.pure-feed-widget .pure_element {
+    width: 100%;
     text-align: center;
-    margin-bottom:5em;
+    margin-bottom: 5em;
 }
 
-.pure-feed-widget .pure_element h3.name{
+.pure-feed-widget .pure_element h3.name {
     font-size: 20px;
 }
 
-.pure-feed-widget .pure_element.person{
+.pure-feed-widget .pure_element.person {
     /**/
 }
 
-.pure-feed-widget .pure_element.person .profile-image{
+.pure-feed-widget .pure_element.person .profile-image {
     /*border: 1px solid #ababab;*/
 }
-.pure-feed-widget .pure_element.person .profile-image div.round{
+
+.pure-feed-widget .pure_element.person .profile-image div.round {
     display: inline-block;
     width: 200px;
     height: 200px;
@@ -32,10 +33,8 @@
     background-position: center center;
     background-size: cover;
 
-    -webkit-box-shadow: 3px 3px 10px 0 rgba(0,0,0,0.75);
-    -moz-box-shadow: 3px 3px 10px 0 rgba(0,0,0,0.75);
-    box-shadow: 3px 3px 10px 0 rgba(0,0,0,0.75);
+    -webkit-box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.75);
 }
-
-
 

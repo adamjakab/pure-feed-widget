@@ -8,16 +8,16 @@ use stdClass;
 
 class Person
 {
-    /** @var  string  */
+    /** @var  string */
     private $pure_id = "";
 
-    /** @var  string  */
+    /** @var  string */
     private $uuid = "";
 
-    /** @var  string  */
+    /** @var  string */
     private $first_name = "";
 
-    /** @var  string  */
+    /** @var  string */
     private $last_name = "";
 
     /** @var string */
@@ -36,7 +36,8 @@ class Person
         $this->setUpFromRawItem($item);
     }
 
-    protected function setUpFromRawItem(stdClass $item) {
+    protected function setUpFromRawItem(stdClass $item)
+    {
         $this->setPureId($item->pureId);
         $this->setUuid($item->uuid);
         $this->setFirstName($item->name->firstName);
@@ -147,7 +148,7 @@ class Person
      */
     protected function setPhotoUrl($photos): void
     {
-        if(is_array($photos)) {
+        if (is_array($photos)) {
             foreach ($photos as $photo) {
                 if (property_exists($photo, "url")) {
                     if (!is_null($photo->url) && !empty($photo->url)) {
