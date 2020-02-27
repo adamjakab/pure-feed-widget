@@ -23,3 +23,4 @@ add_action(
         register_widget('PureFeedWidget\PureWidget');
     }
 );
+
