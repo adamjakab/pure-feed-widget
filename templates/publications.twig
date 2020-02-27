@@ -1,3 +1,47 @@
-<p>
-    This is my good {{ name }}.
-</p>
+{% extends "widget.twig" %}
+
+{#{% block heading %}
+    <p>{{ description }} {{ elements|length }}</p>
+{% endblock %}#}
+
+{% block content %}
+
+    {% for element in elements %}
+        {# @var element \PureFeedWidget\Entity\Research #}
+        <hr />
+        <h3 class="title">{{ element.title }}</h3>
+        <p>
+            <a href="{{ element.portalUrl }}" target="_blank">See it on Pure</a>
+        </p>
+
+        <code>
+            Year: {{ element.publicationYear }}<br />
+            MOU: {{ element.managingOrgUnit }}<br />
+            Confidential: {{ element.confidential ? 'Yes' : 'No' }}<br />
+            Publisher: {{ element.publisher }}<br />
+            Type: {{ element.type }}<br />
+            Category: {{ element.category }}<br />
+            Language: {{ element.language }}<br />
+            Research Area: {{ element.researchArea }}<br />
+            Visibility: {{ element.visibility }}<br />
+            Status: {{ element.publicationStatus }}<br />
+            PureId: {{ element.pureId }}<br />
+            UUID: {{ element.uuid }}<br />
+        </code>
+
+        <br/>
+        <div>
+            <strong>Abstract: </strong>
+            <p>{{ element.abstract }}</p>
+        </div>
+
+
+
+    {% endfor %}
+
+
+{% endblock %}
+
+{% block footing %}
+    <p>{{ description }} {{ elements|length }}</p>
+{% endblock %}

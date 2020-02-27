@@ -36,7 +36,7 @@
                     {% if option == field.value %}
                         {% set selected = 'selected' %}
                     {% endif %}
-                    <option value="{{ field.value }}" {{ selected }}>{{ option }}</option>
+                    <option value="{{ option }}" {{ selected }}>{{ option }}</option>
                 {% endfor %}
             </select>
         </label>

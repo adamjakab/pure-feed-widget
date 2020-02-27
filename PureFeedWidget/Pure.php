@@ -53,7 +53,7 @@ class Pure
     protected function getPersonsOutput()
     {
         $PO = new PersonsOutput();
-        $PO->setUrl($this->config["url"]);
+        $PO->setUrl($this->config["api_url"]);
         $PO->setApiKey($this->config["api_key"]);
         $PO->setOrganizationUuid($this->config["organization_uuid"]);
         $PO->setSize($this->config["size"]);
@@ -76,6 +76,12 @@ class Pure
     protected function getResearchOutput()
     {
         $RO = new ResearchOutput();
+        $RO->setUrl($this->config["api_url"]);
+        $RO->setApiKey($this->config["api_key"]);
+        $RO->setOrganizationUuid($this->config["organization_uuid"]);
+        $RO->setSize($this->config["size"]);
+        $RO->setRendering($this->config["rendering"]);
+        $RO->load();
 
         $renderer = new Renderer(['auto_reload' => true]);
 
@@ -84,6 +90,6 @@ class Pure
             "description" => "Publications found: "
         ];
 
-        return $renderer->render("persons.twig", $context);
+        return $renderer->render("publications.twig", $context);
     }
 }
