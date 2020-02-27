@@ -1,9 +1,55 @@
+# Pure Feed Widget (WP plugin)
+
 A widget for listing academic publications from Elsevier Pure in WordPress.
 
-# Description
 
-This widget displays publications from [Elsevier Pure](https://www.elsevier.com/solutions/pure) institutional repositories. Compared to the RSS feeds, this hopes to provide a cleaner and more configurable output of publications.
+## Description
 
+This widget displays persons and publications from [Elsevier Pure](https://www.elsevier.com/solutions/pure) institutional repositories. Compared to the RSS feeds, this hopes to provide a cleaner and more configurable output of publications.
+
+
+## Installation
+
+- Download an position the move the plugin folder under WordPress's `plugins` folder.
+- Use [composer](https://getcomposer.org/) to install dependencies: `composer install` 
+- In WordPress activate the plugin.
+- Go to Settings/Pure Feed Widget configuration page and set the API URL and the API KEY options.
+- Go to Appearance/Widgets, add a Pure Feed Widget widget to a template position
+- Configure the widget options
+
+
+## Plugin Configuration
+
+#### API URL and API KEY
+A Pure API url and key is needed for this plugin to work. You can acquire both of them from the Pure administrator.
+These two values must be entered in the Pure Feed Widget Configuration page under the Settings menu.
+The API URL is normally in the form: `https://your.pure.domain/ws/api/516`.
+
+
+## Widget Configuration
+
+![Widget Configuration](docs/assets/widget_configuration.png)
+
+#### Organisation ID (UUID)
+Additionally, organisation ID (UUID) might be needed to filter persons and publications. You can find there on the Pure portal, e.g. the Pure page of MAD Art & Design at IT University of Copenhagen is https://pure.itu.dk/portal/en/organisations/mad-art--design(cf9b4e6a-e1ad-41e3-9475-7679abe7131b).html, and the organisation ID is `cf9b4e6a-e1ad-41e3-9475-7679abe7131b`. Enter these in the widget configuration, and select a bibliographical style, typically perhaps APA or Vancouver.
+
+#### Pure API endpoints
+At the time being the widgets are able to handle two distinct endpoints: Persons and Research-Outputs.
+
+#### Maximum fetch size
+This number defines how many elements will be queried from the Pure backend. 
+For now there is no caching mechanism so a high enough number might produce a timeout and break your site.
+
+#### Remote rendering format (Research-Outputs only)
+With this option you can select from a list of available formats defined on your Pure backend to make the rendering to happen on the Pure side instead of receiving the raw values and having to render the output yourself. This is very quick but does not leave much room for flexibility.
+
+#### Other configuration
+Any other configuration option that might come into mind is not implemented. This means you have to get your hands dirty and get down to some Php coding. 
+
+
+## Styling
+
+#### Remote rendering formats
 Pure offers rendering items in various bibliographical style. Below is example output with the [APA style](https://apastyle.apa.org/) style, without any fancy CSS.
 
 ![Example output with the APA style style, without any fancy CSS.](docs/assets/screenshot-1.png)
@@ -12,78 +58,16 @@ Example output with the *short* style.
 
 ![Example output with the *short* style.](docs/assets/screenshot-2.png)
 
-# Installation
+#### Manual rendering
+If the above styles do not satisfy you, you have the option of setting the "Remote rendering format" option to "None" and styling freely your output. 
 
-Install as usual for WordPress plugins.
 
-# Configuration
+## Development Notes
+There are some [notes](./docs/PURE_API_NOTES.md) that were gathered during the development which might come useful for further development.
 
-After installing and enabling as usual for WordPress plugins, PURE API URL is needed, together with API key which you can acquire from the Pure administrator. Additionally organisation ID is needed to filter publications. You can find there on the Pure website, e.g. the Pure page of MAD Art & Design at IT University of Copenhagen is https://pure.itu.dk/portal/en/organisations/mad-art--design(cf9b4e6a-e1ad-41e3-9475-7679abe7131b).html, and the organisation ID is `cf9b4e6a-e1ad-41e3-9475-7679abe7131b`. Enter these in the widget configuration, and select a bibliographical style, typically perhaps APA or Vancouver.
 
-This widget has no opinion about styling. From this example HTML structure, in the APA style you can see the CSS ids and classes.
-
-```html
-<section id="pure_widget-5" class="widget pure_widget">
-    <h2 class="widget-title">Latest publications from MAD</h2>
-        <ul class="references">
-            <li class="item">
-                <div class="rendering rendering_researchoutput  rendering_researchoutput_apa rendering_contributiontoconference rendering_apa rendering_contributiontoconference_apa">
-                    <a rel="Person" href="https://pure.itu.dk/portal/en/persons/anders-sundnes-loevlie(22ec9269-2fff-4dbf-a9c7-5037559a15ee).html" class="link"><span>Løvlie, A. S.</span></a>,
-                    Benford, S., Spence, J.
-                    <a rel="Person" href="https://pure.itu.dk/portal/en/persons/tim-wray(f90a0487-b539-4132-82a4-4aee76dbfe52).html" class="link"><span>, Wray, T.</span></a>
-                    <a rel="Person" href="https://pure.itu.dk/portal/en/persons/christian-hviid-mortensen(11d33701-c7dd-437f-a515-fc14c8092775).html" class="link"><span>, Mortensen, C. H.</span></a>
-                    <a rel="Person" href="https://pure.itu.dk/portal/en/persons/anne-roerbaek-olesen(2f83eb23-3f43-4213-9ea4-78f9ebb11b05).html" class="link"><span>, Olesen, A. R.</span></a>,
-                    ...
-                    Waern, A.
-                    (2019).
-                    <a rel="ContributionToConference" href="https://pure.itu.dk/portal/en/publications/the-gift-framework-give-visitors-the-tools-to-tell-their-own-stories(c9fcf3d7-2076-4c73-ac05-95d98a122e7d).html" class="link"><span><em>The GIFT framework: Give visitors the tools to tell their own stories</em></span></a>.
-                    Paper presented at MuseWeb 2019, Boston, United States.
-                </div>
-            </li>
-            <li class="item">
-                <div class="rendering rendering_researchoutput  rendering_researchoutput_apa rendering_bookanthology rendering_apa rendering_bookanthology_apa">
-                    <a rel="Person" href="https://pure.itu.dk/portal/en/persons/jonas-joergensen(8758dd24-d86a-4dab-be44-fa4e9e903141).html" class="link"><span>Jørgensen, J.</span></a>
-                    (2019).
-                    <a rel="BookAnthology" href="https://pure.itu.dk/portal/en/publications/constructing-soft-robot-aesthetics(1f3ae4b4-056c-4a8b-8c02-b9237d51d8a0).html" class="link"><span><em>Constructing Soft Robot Aesthetics</em></span></a>.
-                    IT-Universitetet i København.
-                </div>
-            </li>
-            .
-            .
-            .
-        </ul>
-</section>
-```
-
-ie the most interesting, widget-specific CSS ids and classes are
-
-```css
-.pure_widget
-    .widget-title
-        .references
-            .item
-                .rendering .rendering_researchoutput ...
-```
-
-# Feedback is welcome
+## Feedback
 
 The primary intented use scenario is to list newest publications in a widget on a webpage of a research group or lab or other organizational unit. Developed primarily for the [MAD Art and Design research group](https://pure.itu.dk/portal/en/organisations/mad-art--design(cf9b4e6a-e1ad-41e3-9475-7679abe7131b).html) at [IT University of Copenhagen](https://www.itu.dk).
 
 Please create issues and pull requests on GitHub, or if you are at ITU, come have a chat :)
-
-# Development
-
-Just some notes for myself at this point because this is being developed on GitHub and WordPress Plugins is hosted via Subversion. Props to [Deeper Scenery's *WordPress Plugin Development with Git/GitHub*](https://jeremypry.com/wordpress-plugin-development-with-github/).
-
-The usual `git add`, `git commit`, `git push` routine for development. Tags can be used as normal. Then for public releases, bump the *Version* field at the top of `pure-feed-widget.php`, then tag with
-
-```
-git tag v0.1.3 -a -m "Release name or something here."
-```
-
-then 
-
-```
-git svn tag v0.1.3
-git svn dcommit
-```
