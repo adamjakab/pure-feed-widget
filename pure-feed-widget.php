@@ -1,12 +1,5 @@
 <?php
 /**
- * @Author: Adam Jakab
- * @Licence: GNU GPLv3
- * @Copyright (c) 2020. Pure Feed Widget
- * @Package PureFeedWidget
- */
-
-/**
  * Plugin Name: Pure Feed Widget
  * Plugin URL: https://github.com/xmacex/pure-feed-widget
  * Description: Render content from Elsevier Pure systems.
