@@ -3,7 +3,6 @@
  * @Author: Adam Jakab
  * @Licence: GNU GPLv3
  * @Copyright (c) 2020. Pure Feed Widget
- * @Package PureFeedWidget
  */
 
 namespace PureFeedWidget\PureOutput;
@@ -12,6 +11,10 @@ namespace PureFeedWidget\PureOutput;
 use Exception;
 use PureFeedWidget\Entity\Research;
 
+/**
+ * Class ResearchOutput
+ * @package PureFeedWidget\PureOutput
+ */
 class ResearchOutput extends Output
 {
     /** @var string */

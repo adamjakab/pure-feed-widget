@@ -3,7 +3,6 @@
  * @Author: Adam Jakab
  * @Licence: GNU GPLv3
  * @Copyright (c) 2020. Pure Feed Widget
- * @Package PureFeedWidget
  */
 
 namespace PureFeedWidget\Entity;
@@ -11,6 +10,10 @@ namespace PureFeedWidget\Entity;
 
 use stdClass;
 
+/**
+ * Class Person
+ * @package PureFeedWidget\Entity
+ */
 class Person
 {
     /** @var  string */

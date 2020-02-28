@@ -3,7 +3,6 @@
  * @Author: Adam Jakab
  * @Licence: GNU GPLv3
  * @Copyright (c) 2020. Pure Feed Widget
- * @Package PureFeedWidget
  */
 
 namespace PureFeedWidget\PureOutput;
@@ -12,7 +11,10 @@ use Exception;
 use stdClass;
 use WP_HTTP_Requests_Response;
 
-
+/**
+ * Class Output
+ * @package PureFeedWidget\PureOutput
+ */
 class Output
 {
     /** @var string */

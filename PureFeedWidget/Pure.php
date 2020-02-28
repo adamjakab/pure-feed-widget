@@ -3,7 +3,6 @@
  * @Author: Adam Jakab
  * @Licence: GNU GPLv3
  * @Copyright (c) 2020. Pure Feed Widget
- * @Package PureFeedWidget
  */
 
 /**
@@ -18,7 +17,8 @@ use PureFeedWidget\PureOutput\PersonsOutput;
 use PureFeedWidget\PureOutput\ResearchOutput;
 
 /**
- * A Pure API representation.
+ * Class Pure
+ * @package PureFeedWidget
  */
 class Pure
 {

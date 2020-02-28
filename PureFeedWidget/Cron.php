@@ -3,12 +3,14 @@
  * @Author: Adam Jakab
  * @Licence: GNU GPLv3
  * @Copyright (c) 2020. Pure Feed Widget
- * @Package PureFeedWidget
  */
 
 namespace PureFeedWidget;
 
-
+/**
+ * Class Cron
+ * @package PureFeedWidget
+ */
 class Cron
 {
     /** @var string */

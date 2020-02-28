@@ -3,14 +3,16 @@
  * @Author: Adam Jakab
  * @Licence: GNU GPLv3
  * @Copyright (c) 2020. Pure Feed Widget
- * @Package PureFeedWidget
  */
 
 namespace PureFeedWidget\Entity;
 
 use stdClass;
 
-
+/**
+ * Class Research
+ * @package PureFeedWidget\Entity
+ */
 class Research
 {
     /** @var  string */

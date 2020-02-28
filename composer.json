@@ -14,6 +14,12 @@
         "twig/twig": "2.x-dev"
     },
     "autoload": {
-        "psr-4": {"PureFeedWidget\\": "PureFeedWidget/"}
+        "psr-4": {
+            "PureFeedWidget\\": "PureFeedWidget/",
+            "PureFeedWidgetTest\\": "test/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
     }
 }

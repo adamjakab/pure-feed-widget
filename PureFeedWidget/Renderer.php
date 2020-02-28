@@ -3,7 +3,6 @@
  * @Author: Adam Jakab
  * @Licence: GNU GPLv3
  * @Copyright (c) 2020. Pure Feed Widget
- * @Package PureFeedWidget
  */
 
 namespace PureFeedWidget;
@@ -15,6 +14,10 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader as TwigFSLoader;
 
+/**
+ * Class Renderer
+ * @package PureFeedWidget
+ */
 class Renderer
 {
     /** @var string */
