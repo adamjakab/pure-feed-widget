@@ -1,5 +1,12 @@
 <?php
 /**
+ * @Author: Adam Jakab
+ * @Licence: GNU GPLv3
+ * @Copyright (c) 2020. Pure Feed Widget
+ * @Package PureFeedWidget
+ */
+
+/**
  * An abstraction over Pure, to simulate the data source
  *
  * @package PureFeedWidget;
@@ -7,7 +14,6 @@
 
 namespace PureFeedWidget;
 
-use Exception;
 use PureFeedWidget\PureOutput\PersonsOutput;
 use PureFeedWidget\PureOutput\ResearchOutput;
 

@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @Author: Adam Jakab
+ * @Licence: GNU GPLv3
+ * @Copyright (c) 2020. Pure Feed Widget
+ * @Package PureFeedWidget
+ */
 
 namespace PureFeedWidget;
 

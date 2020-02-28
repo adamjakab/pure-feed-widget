@@ -1,6 +1,13 @@
 <?php
 /**
- * Plugin Name: Pure feed widget
+ * @Author: Adam Jakab
+ * @Licence: GNU GPLv3
+ * @Copyright (c) 2020. Pure Feed Widget
+ * @Package PureFeedWidget
+ */
+
+/**
+ * Plugin Name: Pure Feed Widget
  * Plugin URL: https://github.com/xmacex/pure-feed-widget
  * Description: Render content from Elsevier Pure systems.
  * Version: 0.3.0
@@ -10,11 +17,10 @@
  * Licence URL: https://www.gnu.org/licenses/gpl-3.0.html
  *
  * See here though for merging this WordPress docblock with phpdoc docblock https://developer.wordpress.org/plugins/plugin-basics/header-requirements/
- *
  */
 
 use PureFeedWidget\AdminConfig;
-use PureFeedWidget\Cron;
+
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -42,3 +48,4 @@ add_action(
 if (is_admin()) {
     $adminConfig = new AdminConfig();
 }
+

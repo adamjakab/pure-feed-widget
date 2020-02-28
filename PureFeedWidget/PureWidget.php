@@ -1,18 +1,20 @@
 <?php
 /**
- * WordPress widget for fetching research publications from Pure.
- *
- * @package PureFeedWidget
+ * @Author: Adam Jakab
+ * @Licence: GNU GPLv3
+ * @Copyright (c) 2020. Pure Feed Widget
+ * @Package PureFeedWidget
  */
 
 namespace PureFeedWidget;
 
 use Exception;
+use WP_Widget;
 
 /**
  * A WordPress widget for listing data from an Elsevier Pure systems.
  */
-class PureWidget extends \WP_Widget
+class PureWidget extends WP_Widget
 {
     /** @var array */
     protected $defaults = [
