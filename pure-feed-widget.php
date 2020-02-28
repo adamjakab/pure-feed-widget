@@ -3,7 +3,7 @@
  * Plugin Name: Pure feed widget
  * Plugin URL: https://github.com/xmacex/pure-feed-widget
  * Description: Render content from Elsevier Pure systems.
- * Version: 0.2.0
+ * Version: 0.3.0
  * Author: Mace Ojala
  * Author URI: https://github.com/xmacex
  * Licence: GNU GPLv3
@@ -14,11 +14,20 @@
  */
 
 use PureFeedWidget\AdminConfig;
+use PureFeedWidget\Cron;
 
 require __DIR__ . '/vendor/autoload.php';
 
+# Plugin activation / deactivation hooks
+register_activation_hook(__FILE__, ["PureFeedWidget\Cron", "scheduleEvent"]);
+register_deactivation_hook(__FILE__, ["PureFeedWidget\Cron", "clearScheduledEvent"]);
+
+# Actions
+add_action('pure_feed_widget_plugin_cron_event', ["PureFeedWidget\Cron", "executeCron"]);
+
+
 /**
- * Register the Widget
+ * Register the widget
  */
 add_action(
     'widgets_init',
