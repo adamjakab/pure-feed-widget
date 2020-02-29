@@ -9,6 +9,7 @@ namespace PureFeedWidgetTest\Unit;
 
 
 use ArgumentCountError;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use PureFeedWidget\Pure;
 use ReflectionClass;
@@ -64,5 +65,13 @@ class PureTest extends TestCase
         $this->ref->newInstance("");
     }
 
-
+    /**
+     * @expectedException Exception
+     */
+    public function testGetOutput()
+    {
+        /** @var Pure $pure */
+        $pure = $this->ref->newInstance([]);
+        $out = $pure->getOutput();
+    }
 }

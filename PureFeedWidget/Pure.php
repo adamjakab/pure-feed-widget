@@ -13,6 +13,7 @@
 
 namespace PureFeedWidget;
 
+use Exception;
 use PureFeedWidget\PureOutput\PersonsOutput;
 use PureFeedWidget\PureOutput\ResearchOutput;
 
@@ -36,66 +37,51 @@ class Pure
     }
 
     /**
+     *
      * @return string
+     * @throws Exception
+     * @todo: template should become a configuration option of the widget
      */
     public function getOutput()
     {
-        if ($this->config['endpoint'] == "Research-Outputs") {
-            $out = $this->getResearchOutput();
-        } else if ($this->config['endpoint'] == "Persons") {
-            $out = $this->getPersonsOutput();
+        if ($this->getConfigValue("endpoint") == "Research-Outputs") {
+            $output = new ResearchOutput();
+            $template = "publications.twig";
+        } else if ($this->getConfigValue("endpoint") == "Persons") {
+            $output = new PersonsOutput();
+            $template = "persons.twig";
         } else {
-            $out = "No suitable endpoint was selected.";
+            return "No suitable endpoint was selected.";
         }
 
-        return $out;
-    }
-
-    /**
-     * Get Persons research output from the Pure.
-     *
-     * @return string
-     */
-    protected function getPersonsOutput()
-    {
-        $PO = new PersonsOutput();
-        $PO->setUrl($this->config["api_url"]);
-        $PO->setApiKey($this->config["api_key"]);
-        $PO->setOrganizationUuid($this->config["organization_uuid"]);
-        $PO->setSize($this->config["size"]);
-        $PO->setRendering($this->config["rendering"]);
-        $PO->load();
+        $output->setUrl($this->getConfigValue("api_url"));
+        $output->setApiKey($this->getConfigValue("api_key"));
+        $output->setOrganizationUuid($this->getConfigValue("organization_uuid"));
+        $output->setSize($this->getConfigValue("size"));
+        $output->setRendering($this->getConfigValue("rendering"));
+        $output->load();
 
         $renderer = new Renderer(['auto_reload' => true]);
 
         $context = [
-            "elements" => $PO->getElements(),
-            "description" => "Researchers found: "
+            "elements" => $output->getElements(),
+            "description" => "--- delete me ---"
         ];
 
-        return $renderer->render("persons.twig", $context);
+        return $renderer->render($template, $context);
     }
 
     /**
-     * @return string
+     * @param $attrib
+     * @return mixed
+     * @throws Exception
      */
-    protected function getResearchOutput()
+    protected function getConfigValue($attrib)
     {
-        $RO = new ResearchOutput();
-        $RO->setUrl($this->config["api_url"]);
-        $RO->setApiKey($this->config["api_key"]);
-        $RO->setOrganizationUuid($this->config["organization_uuid"]);
-        $RO->setSize($this->config["size"]);
-        $RO->setRendering($this->config["rendering"]);
-        $RO->load();
+        if (!array_key_exists($attrib, $this->config)) {
+            throw new Exception(sprintf("Cnfiguration attribute[%s] does not exist!", $attrib));
+        }
 
-        $renderer = new Renderer(['auto_reload' => true]);
-
-        $context = [
-            "elements" => $RO->getElements(),
-            "description" => "Publications found: "
-        ];
-
-        return $renderer->render("publications.twig", $context);
+        return $this->config[$attrib];
     }
 }
