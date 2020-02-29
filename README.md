@@ -1,6 +1,9 @@
+[![Build Status](https://travis-ci.org/adamjakab/pure-feed-widget.svg?branch=devel)](https://travis-ci.org/adamjakab/pure-feed-widget)
+
+
 # Pure Feed Widget (WP plugin)
 
-A widget for listing academic publications from Elsevier Pure in WordPress.
+A widget for listing authors and academic publications in WordPress from Elsevier Pure.
 
 
 ## Description
