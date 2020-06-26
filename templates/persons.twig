@@ -36,5 +36,7 @@
 {% endblock %}
 
 {% block footing %}
-    <p>{{ description }} {{ elements|length }}</p>
+    {% if description is not empty %}
+        <p class="description">{{ description }}</p>
+    {% endif %}
 {% endblock %}

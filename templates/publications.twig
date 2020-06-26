@@ -10,25 +10,6 @@
         {# @var element \PureFeedWidget\Entity\Research #}
         <hr />
         <h3 class="title">{{ element.title }}</h3>
-        <p>
-            <a href="{{ element.portalUrl }}" target="_blank">See it on Pure</a>
-        </p>
-
-        <code>
-            Year: {{ element.publicationYear }}<br />
-            MOU: {{ element.managingOrgUnit }}<br />
-            Confidential: {{ element.confidential ? 'Yes' : 'No' }}<br />
-            Publisher: {{ element.publisher }}<br />
-            Type: {{ element.type }}<br />
-            Category: {{ element.category }}<br />
-            Language: {{ element.language }}<br />
-            Research Area: {{ element.researchArea }}<br />
-            Visibility: {{ element.visibility }}<br />
-            Status: {{ element.publicationStatus }}<br />
-            PureId: {{ element.pureId }}<br />
-            UUID: {{ element.uuid }}<br />
-        </code>
-        <br/>
 
         {% if element.abstract is not empty %}
             <div>
@@ -38,11 +19,32 @@
         {% endif %}
 
         <div>
-            <strong>Pure Rendered ({{ element.pureRenderedFormat }}): </strong>
+            <strong>Reference ({{ element.pureRenderedFormat }}): </strong>
             {{ element.pureRenderedHtml|raw }}
         </div>
 
+        <br/>
+        <div>
+            <strong>Attributes: </strong><br/>
+            <code>
+                Year: {{ element.publicationYear }}<br/>
+                Organizational Unit: {{ element.managingOrgUnit }}<br/>
+                Confidential: {{ element.confidential ? 'Yes' : 'No' }}<br/>
+                Publisher: {{ element.publisher }}<br/>
+                Type: {{ element.type }}<br/>
+                Category: {{ element.category }}<br/>
+                Language: {{ element.language }}<br/>
+                Research Area: {{ element.researchArea }}<br/>
+                Status: {{ element.publicationStatus }}<br/>
+                {# Visibility: {{ element.visibility }}<br />#}
+                {#PureId: {{ element.pureId }}<br />#}
+                {#UUID: {{ element.uuid }}<br />#}
+            </code>
+        </div>
 
+        <p>
+            <a href="{{ element.portalUrl }}" target="_blank">See it on Pure</a>
+        </p>
 
     {% endfor %}
 
@@ -50,6 +52,8 @@
 {% endblock %}
 
 {% block footing %}
-    <hr />
-    <p>{{ description }} {{ elements|length }}</p>
+    {% if description is not empty %}
+        <hr/>
+        <p class="description">{{ description }}</p>
+    {% endif %}
 {% endblock %}

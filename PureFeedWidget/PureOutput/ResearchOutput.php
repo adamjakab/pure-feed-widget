@@ -29,7 +29,9 @@ class ResearchOutput extends Output
 
 
     /**
-     * This is a proxy method so that in future here we can rely on cached content instead of querying all the time
+     * This is a proxy method so that in future we can rely on cached content instead of querying all the time
+     * It will need to serialize the rawResponse and the single items after the query was executed
+     * it could rely on a time-based (24hrs) check or the PureFeedWidget\Cron class can be used to refresh the cache (TBD)
      */
     public function load()
     {

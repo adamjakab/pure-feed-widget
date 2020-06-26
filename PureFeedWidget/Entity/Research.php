@@ -231,7 +231,11 @@ class Research
      */
     public function getAbstract(): string
     {
-        return $this->abstract;
+        $abstract = html_entity_decode($this->abstract);
+        $abstract = str_ireplace('<br/>', ' ', $abstract);
+        $abstract = strip_tags($abstract);
+
+        return html_entity_decode($abstract);
     }
 
     /**

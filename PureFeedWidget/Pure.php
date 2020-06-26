@@ -61,12 +61,12 @@ class Pure
         $output->setRendering($this->getConfigValue("rendering"));
         $output->load();
 
-        $renderer = new Renderer(['auto_reload' => true]);
-
         $context = [
             "elements" => $output->getElements(),
-            "description" => "--- delete me ---"
+            "description" => ""
         ];
+
+        $renderer = new Renderer(['auto_reload' => true]);
 
         return $renderer->render($template, $context);
     }
